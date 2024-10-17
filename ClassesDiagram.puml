@@ -13,6 +13,7 @@ class User {
     LocalDateTime updatedAt
     boolean deleted
     boolean active
+    boolean blocked
 }
 
 enum UserRole {

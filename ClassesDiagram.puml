@@ -1,0 +1,136 @@
+@startuml
+
+class User {
+    UUID id
+    String userName
+    String password
+    String firstName
+    String lastName
+    String email
+    String phone
+    Set<UserRole> roles
+    LocalDateTime createdAt
+    LocalDateTime updatedAt
+    boolean deleted
+    boolean active
+}
+
+enum UserRole {
+    ADMIN
+    BROKER
+    SUPERVISOR
+    MANAGER
+    CARRIER
+    DISPATCHER
+    DRIVER
+    CUSTOMER
+}
+
+class Truck {
+    UUID id
+    TruckType type
+    int feet
+    int weight
+    Double capacity
+    TruckStatus status
+    String location
+    User driverId
+}
+
+class Load {
+    UUID id
+    double weight
+    int meters
+    String description
+    Location pickupLocationId
+    Location deliveryLocationId
+    int price
+    boolean price_visible
+    LoadStatus status
+    boolean private_view
+    User shipperId
+    Track assignedTruckId
+}
+
+class Location {
+    integer id
+    integer zipCode
+    String localityName
+    String stateName
+    String countryName
+}
+
+class TariffPlan {
+    UUID id
+    String name
+    Double price
+    String features
+    Integer validityPeriod
+    Double discount
+}
+
+class Payment {
+    UUID id
+    UUID userId
+    UUID tariffPlanId
+    Double amount
+    Timestamp paymentDate
+}
+
+class Favorite {
+    UUID id
+    UUID userId
+    UUID loadId
+    UUID truckId
+}
+
+class Statistics {
+    UUID id
+    String[] topRoutes
+    UUID[] topCarriers
+    UUID[] topBrokers
+    Map<String, Double> profitData
+}
+
+enum TruckStatus {
+    AVAILABLE
+    IN_TRANSIT
+    LOADING
+    UNLOADING
+}
+
+enum LoadStatus {
+    POSTED
+    ASSIGNED
+    IN_TRANSIT
+    DELIVERED
+}
+
+enum TruckType {
+    DRY_VAN
+    REFRIGERATED_TRAILER
+    FLATBED
+    LOWBOY_TRAILER
+    CURTAIN_SIDE_TRAILER
+    TANK_TRAILER
+    LIVESTOCK_TRAILER
+    DUMP_TRUCK
+}
+
+User "0..*" -- "0..*" Truck : owns
+User "1" -- "0..*" Load : ships
+Truck "1" -- "0..1" Load : carries
+User "1" -- "0..*" Payment : makes
+TariffPlan "1" -- "0..*" Payment : related to
+User "1" -- "0..*" Favorite : has
+Load "1" -- "0..1" Favorite : bookmarked
+Load  -- Location
+Truck "1" -- "0..1" Favorite : bookmarked
+Statistics "1" -- "1" User : tracks
+
+TruckType -- Truck : defines
+LoadStatus -- Load : status
+TruckStatus -- Truck : status
+UserRole "1..*" -- "1" User : roles
+
+@enduml

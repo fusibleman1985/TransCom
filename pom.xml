@@ -18,13 +18,36 @@
         <license/>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <id>dragin.alex</id>
+            <name>Oleksandr Drahin</name>
+            <email>dragin.alex@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>eduard.bandurivskyi</id>
+            <name>Eduard Bandurivskyi</name>
+            <email>fusibleman@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>sergio.strukov</id>
+            <name>Sergio Strukov</name>
+            <email>serega.strukov21@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
     </developers>
     <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
+        <connection>scm:git:https://github.com/adragin/TransCom.git</connection>
+        <developerConnection>scm:git:ssh:git@github.com:adragin/TransCom.git</developerConnection>
+        <tag>v1.0.0</tag>
+        <url>https://github.com/adragin/TransCom</url>
     </scm>
     <properties>
         <java.version>17</java.version>

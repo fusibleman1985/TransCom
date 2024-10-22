@@ -1,8 +1,8 @@
-package org.transcom.model.entities;
+package org.transcom.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.transcom.model.enams.UserRole;
+import org.transcom.enams.UserRole;
 
 import java.time.LocalDateTime;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package org.transcom.model.enams;
+package org.transcom.enams;
 
 public enum TruckStatus {
     AVAILABLE,

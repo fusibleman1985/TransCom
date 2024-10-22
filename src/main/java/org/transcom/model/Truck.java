@@ -1,9 +1,9 @@
-package org.transcom.model.entities;
+package org.transcom.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.transcom.model.enams.TruckType;
-import org.transcom.model.enams.TruckStatus;
+import org.transcom.enams.TruckType;
+import org.transcom.enams.TruckStatus;
 
 import java.util.UUID;
 

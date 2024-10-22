@@ -1,8 +1,8 @@
-package org.transcom.model.entities;
+package org.transcom.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.transcom.model.enams.LoadStatus;
+import org.transcom.enams.LoadStatus;
 
 import java.util.UUID;
 

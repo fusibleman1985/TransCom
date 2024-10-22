@@ -1,4 +1,4 @@
-package org.transcom.model.entities;
+package org.transcom.model;
 
 import lombok.Getter;
 import lombok.Setter;

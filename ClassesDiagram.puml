@@ -8,12 +8,25 @@ class User {
     String lastName
     String email
     String phone
+    Company companyId
     Set<UserRole> roles
-    LocalDateTime createdAt
-    LocalDateTime updatedAt
-    boolean deleted
+    LocalDateTime createdDate
+    LocalDateTime updatedDate
     boolean active
     boolean blocked
+    boolean deleted
+}
+
+class Company {
+    Long id
+    String companyName
+    String licenseId
+    double score
+    LocalDateTime createdDate
+    LocalDateTime updatedDate
+    boolean active
+    boolean blocked
+    boolean deleted
 }
 
 enum UserRole {
@@ -41,16 +54,23 @@ class Truck {
 class Load {
     UUID id
     double weight
-    int meters
+    int length
     String description
     Location pickupLocationId
     Location deliveryLocationId
+    String countryName
+    int trip
     int price
-    boolean price_visible
+    boolean visiblePrice
     LoadStatus status
-    boolean private_view
+    boolean visibleStatus
+    Company companyId
+    User managerId
     User shipperId
+    User driverId
     Track assignedTruckId
+    Timestamp createDate
+    Timestamp deliveryDate
 }
 
 class Location {
@@ -155,6 +175,7 @@ enum TruckType {
 
 User "0..*" -- "0..*" Truck : owns
 User "1" -- "0..*" Load : ships
+User "1" -- "1" UserType
 Truck "1" -- "0..1" Load : carries
 User "1" -- "0..*" Payment : makes
 TariffPlan "1" -- "0..*" Payment : related to

@@ -175,7 +175,7 @@ enum TruckType {
 
 User "0..*" -- "0..*" Truck : owns
 User "1" -- "0..*" Load : ships
-User "1" -- "1" UserType
+User "0..*" -- "1" Company
 Truck "1" -- "0..1" Load : carries
 User "1" -- "0..*" Payment : makes
 TariffPlan "1" -- "0..*" Payment : related to

@@ -151,7 +151,6 @@ enum TruckType {
     ROLL_TRAILER
     WALKING_FLOOR
     MOVING_FLOOR
-
 }
 
 User "0..*" -- "0..*" Truck : owns

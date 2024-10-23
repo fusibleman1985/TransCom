@@ -2,7 +2,7 @@ package org.transcom.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.transcom.enams.LoadStatus;
+import org.transcom.enums.LoadStatus;
 
 import java.util.UUID;
 

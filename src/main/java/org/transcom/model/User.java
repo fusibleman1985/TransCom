@@ -2,7 +2,7 @@ package org.transcom.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.transcom.enams.UserRole;
+import org.transcom.enums.UserRole;
 
 import java.time.LocalDateTime;
 import java.util.Set;

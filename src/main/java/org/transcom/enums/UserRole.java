@@ -1,4 +1,4 @@
-package org.transcom.enams;
+package org.transcom.enums;
 
 public enum UserRole {
     ADMIN,

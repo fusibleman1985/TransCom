@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 4
+      id: 1
       author: Oleksandr Drahin
 
       changes:
@@ -33,4 +33,4 @@ databaseChangeLog:
       addAutoIncrement:
         tableName: tariff_plans
         columnName: id
-        columnDataType: UUID
+        columnDataType: int

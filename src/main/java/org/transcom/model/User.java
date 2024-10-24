@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.transcom.enums.UserRole;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,10 +18,13 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
+    private List<Phone> phones;
+    private Company companyId;
     private Set<UserRole> roles;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
+    private List<Payment> payments;
+    private TariffPlan tariffPlan;
     private boolean deleted;
     private boolean active;
     private boolean blocked;

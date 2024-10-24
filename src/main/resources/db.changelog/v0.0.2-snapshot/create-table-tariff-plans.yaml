@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: Oleksandr Drahin
+
+      changes:
+        - createTable:
+            tableName: tariff_plans
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: tariff_name
+                  type: varchar(128)
+              - column:
+                  name: price
+                  type: decimal(10,2)
+              - column:
+                  name: features
+                  type: varchar(255)
+              - column:
+                  name: validity_period
+                  type: int
+              - column:
+                  name: discount
+                  type: decimal(10,2)
+
+      addAutoIncrement:
+        tableName: tariff_plans
+        columnName: id
+        columnDataType: UUID

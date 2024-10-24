@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: Oleksandr Drahin
+      preConditions:
+        onFail: WARN
+        tableExists:
+          tableName: example_table
+
+      changes:
+        - dropTable:
+            tableName: example_table
+            cascadeConstraints: true

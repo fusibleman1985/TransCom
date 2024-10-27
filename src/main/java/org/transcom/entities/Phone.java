@@ -1,28 +1,27 @@
 package org.transcom.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
 
-//@Entity
+@Entity
 @Getter
 @Setter
-//@Table(name = "phones")
+@Table(name = "user_phones")
 public class Phone {
 
-//    @Id
-//    @Column(name = "phone_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "phone_id")
     private Long phoneId;
 
-//    @Column(name = "user_id")
+//    @ManyToMany
+    @Column(name = "user_id")
     private UUID userId;
 
-//    @Column(name = "phone_number")
+    @Column(name = "phone_number")
     private String phoneNumber;
 }

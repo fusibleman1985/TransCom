@@ -18,7 +18,7 @@ public class Phone {
     @Column(name = "phone_id")
     private Long phoneId;
 
-//    @ManyToMany
+    //    @ManyToOne
     @Column(name = "user_id")
     private UUID userId;
 

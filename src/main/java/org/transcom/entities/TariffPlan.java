@@ -16,18 +16,18 @@ public class TariffPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="tariff_name")
+    @Column(name = "tariff_name")
     private String name;
 
-    @Column(name="price")
+    @Column(name = "price")
     private Double price;
 
-    @Column(name="features")
+    @Column(name = "features")
     private String features;
 
-    @Column(name="validity_period")
+    @Column(name = "validity_period")
     private Integer validityPeriod;
 
-    @Column(name="discount")
+    @Column(name = "discount")
     private Double discount;
 }

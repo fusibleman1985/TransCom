@@ -13,7 +13,7 @@ import java.util.UUID;
 public class TariffPlan {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name="tariff_name")

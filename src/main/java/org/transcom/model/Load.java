@@ -19,6 +19,6 @@ public class Load {
     private boolean priceVisible;
     private LoadStatus status;
     private boolean privateView;
-    private User shipperId;
-    private Truck assignedTruckId;
+//    private User shipperId;
+//    private Truck assignedTruckId;
 }

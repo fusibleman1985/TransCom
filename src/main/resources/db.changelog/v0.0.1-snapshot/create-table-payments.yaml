@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: Sergei Strukov
+
+      changes:
+        - createTable:
+            tableName: payments
+            columns:
+              - column:
+                  name: payment_id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tariff_plan_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: payments
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: user_id
+            constraintName: fk_payments_users
+#        - addForeignKeyConstraint:
+#            baseTableName: payments
+#            baseColumnNames: tariff_plan_id
+#            referencedTableName: tariff_plans
+#            referencedColumnNames: tariff_plan_id
+#            constraintName: fk_payments_tariff_plan

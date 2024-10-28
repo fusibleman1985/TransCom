@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: Sergei Strukov
+
+      changes:
+        - createTable:
+            tableName: companies
+            columns:
+              - column:
+                  name: company_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+              - column:
+                  name: company_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: license_id
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: score
+                  type: DECIMAL(3,2)
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+              - column:
+                  name: updated_date
+                  type: TIMESTAMP
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: company_id
+            referencedTableName: companies
+            referencedColumnNames: company_id
+            constraintName: fk_users_companies

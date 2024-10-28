@@ -1,7 +1,6 @@
 package org.transcom.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,9 +18,9 @@ public class Payment {
     @Column(name = "payment_id")
     private UUID id;
 
-//    @ManyToOne
-    @Column(name = "user_id")
-    private UUID userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "tariff_plan_id", nullable = false)

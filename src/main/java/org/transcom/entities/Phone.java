@@ -1,11 +1,8 @@
 package org.transcom.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,9 +15,9 @@ public class Phone {
     @Column(name = "phone_id")
     private Long phoneId;
 
-    //    @ManyToOne
-    @Column(name = "user_id")
-    private UUID userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "phone_number")
     private String phoneNumber;

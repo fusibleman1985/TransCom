@@ -15,11 +15,6 @@ databaseChangeLog:
                     nullable: false
                     unique: true
               - column:
-                  name: user_id
-                  type: uuid
-                  constraints:
-                    nullable: false
-              - column:
                   name: company_name
                   type: VARCHAR(255)
                   constraints:
@@ -41,3 +36,10 @@ databaseChangeLog:
               - column:
                   name: status
                   type: VARCHAR(50)
+
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: company_id
+            referencedTableName: companies
+            referencedColumnNames: company_id
+            constraintName: fk_users_companies

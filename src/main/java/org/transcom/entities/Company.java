@@ -1,13 +1,12 @@
 package org.transcom.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.transcom.enums.Status;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,9 +19,8 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //    @OneToMany
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    @OneToMany(mappedBy = "company")
+    private List<User> user;
 
     @Column(name = "company_name", nullable = false)
     private String companyName;

@@ -8,5 +8,7 @@
     <include file="/db.changelog/v0.0.1-snapshot/create-table-user_phones.yaml" />
     <include file="/db.changelog/v0.0.1-snapshot/create-table-payments.yaml" />
     <include file="/db.changelog/v0.0.1-snapshot/create-table-companies.yaml" />
+    <include file="/db.changelog/v0.0.1-snapshot/create-table-users.yaml" />
+<!--    <include file="/db.changelog/v0.0.1-snapshot/create-table-user_roles.yaml" />-->
 
 </databaseChangeLog>

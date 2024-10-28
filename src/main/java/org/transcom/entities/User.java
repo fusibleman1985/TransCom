@@ -22,7 +22,7 @@ public class User {
     private UUID id;
 
     @Column(name = "username")
-    private String userName;
+    private String nickName;
 
     @Column(name = "password")
     private String password;

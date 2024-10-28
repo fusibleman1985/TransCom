@@ -3,8 +3,7 @@ package org.transcom.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -14,13 +13,14 @@ public class TariffPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "tariff_name")
     private String name;
 
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
 
     @Column(name = "features")
     private String features;

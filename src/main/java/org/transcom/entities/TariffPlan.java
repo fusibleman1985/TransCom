@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -13,21 +13,22 @@ import java.util.UUID;
 public class TariffPlan {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
-    @Column(name="tariff_name")
+    @Column(name = "tariff_name")
     private String name;
 
-    @Column(name="price")
-    private Double price;
+    @Column(name = "price")
+    private BigDecimal price;
 
-    @Column(name="features")
+    @Column(name = "features")
     private String features;
 
-    @Column(name="validity_period")
+    @Column(name = "validity_period")
     private Integer validityPeriod;
 
-    @Column(name="discount")
+    @Column(name = "discount")
     private Double discount;
 }

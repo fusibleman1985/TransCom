@@ -37,9 +37,9 @@ databaseChangeLog:
                   name: status
                   type: VARCHAR(50)
 
-        - addForeignKeyConstraint:
-            baseTableName: users
-            baseColumnNames: company_id
-            referencedTableName: companies
-            referencedColumnNames: company_id
-            constraintName: fk_users_companies
+#        - addForeignKeyConstraint:
+#            baseTableName: users
+#            baseColumnNames: company_id
+#            referencedTableName: companies
+#            referencedColumnNames: company_id
+#            constraintName: fk_users_companies

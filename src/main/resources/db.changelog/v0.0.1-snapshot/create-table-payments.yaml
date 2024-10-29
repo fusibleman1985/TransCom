@@ -35,12 +35,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
-        - addForeignKeyConstraint:
-            baseTableName: payments
-            baseColumnNames: user_id
-            referencedTableName: users
-            referencedColumnNames: user_id
-            constraintName: fk_payments_users
+#        - addForeignKeyConstraint:
+#            baseTableName: payments
+#            baseColumnNames: user_id
+#            referencedTableName: users
+#            referencedColumnNames: user_id
+#            constraintName: fk_payments_users
 #        - addForeignKeyConstraint:
 #            baseTableName: payments
 #            baseColumnNames: tariff_plan_id

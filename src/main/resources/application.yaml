@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: TransCom
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${USERNAME}
+    password: ${PASSWORD}
+    url: ${URL}
+  #  liquibase:
+  #    enabled: true
+  #    change-log: classpath:db.changelog/changelog-master.xml
+  main:
+    banner-mode: off

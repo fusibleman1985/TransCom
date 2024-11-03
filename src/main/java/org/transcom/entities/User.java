@@ -1,5 +1,6 @@
 package org.transcom.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,7 @@ import java.util.UUID;
 public class User {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(name = "login")
     private String login;
@@ -36,10 +36,6 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "user_id")
-    private List<Phone> phones;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -50,8 +46,14 @@ public class User {
     @Column(name = "user_status")
     private UserStatus userStatus;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private List<Phone> phones;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private List<Order> orders;
 
     @PrePersist

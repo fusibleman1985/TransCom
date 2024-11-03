@@ -51,7 +51,7 @@ public class User {
     @JsonManagedReference
     private List<Phone> phones;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     @JsonManagedReference
     private List<Order> orders;

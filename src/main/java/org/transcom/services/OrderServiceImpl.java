@@ -2,7 +2,9 @@ package org.transcom.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.transcom.entities.Order;
+import org.transcom.entities.User;
 import org.transcom.exceptions.OrderNotFoundException;
 import org.transcom.repositories.OrderRepository;
 
@@ -33,10 +35,17 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new OrderNotFoundException("Order " + id + " not found"));
     }
 
-    @Override
-    public void deleteOrder(UUID id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("Order " + id + " not found"));
-        orderRepository.delete(order);
-    }
+//    @Transactional
+//    @Override
+//    public void deleteOrder(UUID id) {
+//        Order order = orderRepository.findById(id)
+//                .orElseThrow(() -> new OrderNotFoundException("Order " + id + " not found"));
+//
+//        User user = order.getUser();
+//        if (user != null) {
+//            user.getOrders().remove(order);  // Убираем заказ из списка заказов пользователя
+//        }
+//
+//        orderRepository.delete(order);
+//    }
 }

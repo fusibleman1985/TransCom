@@ -13,5 +13,5 @@ public interface OrderService {
 
     Order saveOrder(Order order);
 
-    void deleteOrder(UUID id);
+//    void deleteOrder(UUID id);
 }

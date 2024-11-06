@@ -30,7 +30,7 @@ public class OrderController {
         return orderService.findAllOrders();
     }
 
-//    @DeleteMapping
+//    @DeleteMapping("/{id}")
 //    public void deleteOrder(@PathVariable UUID id) {
 //        orderService.deleteOrder(id);
 //    }

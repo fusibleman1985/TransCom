@@ -3,7 +3,6 @@ package org.transcom.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.transcom.entities.enums.OrderStatus;
 

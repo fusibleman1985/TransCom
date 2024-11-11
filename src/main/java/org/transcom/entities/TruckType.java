@@ -34,7 +34,7 @@ public class TruckType {
     @Column(name = "image_truck_type_name")
     private String imageUrl;
 
-    @OneToMany(mappedBy = "truckType", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "truckType", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Truck> trucks;
 }

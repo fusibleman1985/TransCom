@@ -1,40 +1,19 @@
 package org.transcom.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.transcom.dto.TruckTypeDto;
 import org.transcom.entities.TruckType;
-import org.transcom.repositories.TruckTypeRepository;
 
 import java.util.List;
 
-@Service
-public class TruckTypeService {
+public interface TruckTypeService {
 
-    @Autowired
-    private TruckTypeRepository truckTypeRepository;
+    TruckType createTruckType(TruckTypeDto truckType);
 
-    public TruckType createTruckType(TruckType truckType) {
-        return truckTypeRepository.save(truckType);
-    }
+    TruckType findTruckType(Long id);
 
-    public List<TruckType> getAllTruckTypes() {
-        return truckTypeRepository.findAll();
-    }
+    List<TruckType> findAllTruckTypes();
 
-    public TruckType getTruckTypeById(Long id) {
-        return truckTypeRepository.findById(id).orElse(null);
-    }
+    TruckType updateTruckType(Long id, TruckTypeDto truckType);
 
-    public TruckType updateTruckType(Long id, TruckType updatedTruckType) {
-        TruckType truckType = getTruckTypeById(id);
-        if (truckType != null) {
-            truckType.setShortName(updatedTruckType.getShortName());
-            truckType.setFullName(updatedTruckType.getFullName());
-            truckType.setLengthMeters(updatedTruckType.getLengthMeters());
-            truckType.setCapacityCubicUnits(updatedTruckType.getCapacityCubicUnits());
-            truckType.setImageUrl(updatedTruckType.getImageUrl());
-            return truckTypeRepository.save(truckType);
-        }
-        return null;
-    }
+    void deleteTruckType(Long id);
 }

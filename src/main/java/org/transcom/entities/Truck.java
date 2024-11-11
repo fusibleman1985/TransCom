@@ -3,7 +3,7 @@ package org.transcom.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.transcom.enums.TruckStatus;
+import org.transcom.entities.enums.TruckStatus;
 
 import java.util.UUID;
 

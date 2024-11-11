@@ -5,22 +5,21 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.transcom.enums.OrderStatus;
+import org.transcom.entities.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(name = "weight")
     private int weight;

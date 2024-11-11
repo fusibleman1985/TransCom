@@ -1,19 +1,17 @@
 package org.transcom.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.transcom.enums.OrderStatus;
+import lombok.*;
+import org.transcom.entities.enums.OrderStatus;
+
+import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class OrderDto {
+    private UUID id;
     private int weight;
-    private int price;
+    private BigDecimal price;
     private String description;
     private OrderStatus orderStatus;
-    private UserDto user;
+//    private UserDto user;
 }

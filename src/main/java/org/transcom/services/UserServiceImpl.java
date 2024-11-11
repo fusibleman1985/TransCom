@@ -6,7 +6,7 @@ import org.transcom.dto.UserDto;
 import org.transcom.dto.UserDtoResponse;
 import org.transcom.entities.Phone;
 import org.transcom.entities.User;
-import org.transcom.enums.UserStatus;
+import org.transcom.entities.enums.UserStatus;
 import org.transcom.factories.UserFactory;
 import org.transcom.repositories.UserRepository;
 
@@ -16,9 +16,8 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
+
     private UserFactory userFactory;
 
     @Override
@@ -107,6 +106,4 @@ public class UserServiceImpl implements UserService {
                 .orders(user.getOrders())
                 .build();
     }
-
-
 }

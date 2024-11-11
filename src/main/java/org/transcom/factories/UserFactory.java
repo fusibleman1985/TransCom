@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.transcom.dto.UserDto;
 import org.transcom.entities.Phone;
 import org.transcom.entities.User;
-import org.transcom.enums.UserStatus;
+import org.transcom.entities.enums.UserStatus;
 import org.transcom.utils.UtilsUser;
 
 import java.util.List;
@@ -14,7 +14,6 @@ import java.util.UUID;
 @Component
 public class UserFactory {
 
-    @Autowired
     private UtilsUser utilsUser;
 
     public User createUser(UserDto userDto) {

@@ -26,4 +26,3 @@ public class Phone {
     private User user;
 
 }
-

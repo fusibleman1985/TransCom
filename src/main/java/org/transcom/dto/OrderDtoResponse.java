@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.transcom.enums.OrderStatus;
+import org.transcom.entities.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.transcom.enums.UserStatus;
+import org.transcom.entities.enums.UserStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -64,7 +64,6 @@ public class User {
 
     @PreUpdate
     protected void onUpdate() {
-
         this.updatedAt = LocalDateTime.now();
     }
 }

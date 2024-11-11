@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.transcom.entities.Order;
 import org.transcom.entities.User;
-import org.transcom.enums.UserStatus;
+import org.transcom.entities.enums.UserStatus;
 
 import java.util.List;
 import java.util.UUID;

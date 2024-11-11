@@ -5,15 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.transcom.entities.Order;
-import org.transcom.enums.UserStatus;
+import org.transcom.entities.enums.UserStatus;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class UserDto {
+    private UUID id;
     private String login;
     private String password;
     private String firstName;

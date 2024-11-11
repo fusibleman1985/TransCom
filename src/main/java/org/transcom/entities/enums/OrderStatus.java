@@ -1,4 +1,4 @@
-package org.transcom.enums;
+package org.transcom.entities.enums;
 
 public enum OrderStatus {
     CREATED,

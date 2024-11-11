@@ -22,6 +22,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
+    public OrderDto saveOrder(OrderDto orderDto) {
+        Order order = orderMapper.toEntity(orderDto);
+        if (order.getId() == null) {
+            order.setId(UUID.randomUUID());
+        }
+        Order savedOrder = orderRepository.save(order);
+        return orderMapper.mapToDto(savedOrder);
+    }
+
+    @Transactional
+    @Override
     public List<OrderDto> findAllOrders() {
         List<Order> orders = orderRepository.findAll();
         return orderMapper.mapToListDto(orders);
@@ -30,19 +41,32 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public OrderDto findOrderById(UUID id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id.toString()));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException("Order " + id + " not found"));
         return orderMapper.mapToDto(order);
     }
 
     @Transactional
     @Override
-    public OrderDto saveOrder(OrderDto orderDto) {
-        Order order = orderMapper.toEntity(orderDto);
-        if (order.getId() == null) {
-            order.setId(UUID.randomUUID());
+    public OrderDto updateOrder(OrderDto orderDto) {
+        if (orderDto == null) {
+            throw new IllegalArgumentException("OrderDto cannot be null");
         }
-        Order savedOrder = orderRepository.save(order);
-        return orderMapper.mapToDto(savedOrder);
+
+        Order existingOrder = orderRepository.findById(orderDto.getId())
+                .orElseThrow(() -> new OrderNotFoundException("Order not found"));
+
+        if (orderDto.getOrderStatus() != null) {
+            existingOrder.setOrderStatus(orderDto.getOrderStatus());
+        }
+        if (orderDto.getPrice() != null) {
+            existingOrder.setPrice(orderDto.getPrice());
+        }
+        if (orderDto.getDescription() != null) {
+            existingOrder.setDescription(orderDto.getDescription());
+        }
+        existingOrder.setWeight(orderDto.getWeight());
+        Order updatedOrder = orderRepository.save(existingOrder);
+        return orderMapper.mapToDto(updatedOrder);
     }
 
     @Transactional

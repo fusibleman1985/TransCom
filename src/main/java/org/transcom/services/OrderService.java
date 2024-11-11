@@ -13,5 +13,7 @@ public interface OrderService {
 
     OrderDto saveOrder(OrderDto orderDto);
 
+    OrderDto updateOrder(OrderDto orderDto);
+
     void deleteOrder(UUID id);
 }

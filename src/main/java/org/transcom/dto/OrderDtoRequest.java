@@ -1,0 +1,25 @@
+package org.transcom.dto;
+
+import lombok.*;
+import org.transcom.entities.enums.OrderStatus;
+
+import javax.validation.constraints.Min;
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class OrderDtoRequest {
+
+    @Min(value = 1, message = "Weight must be greater than zero")
+    private int weight;
+
+    @Min(value = 1, message = "Price must be greater than zero")
+    private BigDecimal price;
+
+    private String description;
+
+    private OrderStatus orderStatus;
+}

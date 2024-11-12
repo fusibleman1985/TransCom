@@ -1,102 +1,63 @@
 package org.transcom.mappers;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
 import org.transcom.dto.UserDtoRequest;
 import org.transcom.dto.UserDtoResponse;
 import org.transcom.entities.Phone;
 import org.transcom.entities.User;
-import org.transcom.repositories.UserRepository;
-import org.transcom.utils.UtilsUser;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
-@Component
-@RequiredArgsConstructor
-public class UserMapper {
+@Mapper(componentModel = "spring", imports = {UUID.class})
+public interface UserMapper {
 
-    private final UtilsUser utilsUser;
-    private final UserRepository userRepository;
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "userStatus", constant = "BLOCKED")
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "phones", expression = "java(mapPhoneNumbersToPhones(userDtoRequest.getPhoneNumbers(), user))")
+    User toUser(UserDtoRequest userDtoRequest);
 
-    // UserDtoRequest -> User
-    public User toUser(UserDtoRequest userDtoRequest) {
-        User user = new User();
+    @Mapping(target = "uuid", source = "id")
+    @Mapping(target = "phoneNumbers", ignore = true)
+    UserDtoResponse toUserDtoResponse(User user);
 
-        List<Phone> phones = userDtoRequest.getPhoneNumbers().stream()
+    default UserDtoResponse toUserDtoResponseWithPhones(User user) {
+        UserDtoResponse userDtoResponse = toUserDtoResponse(user);
+        userDtoResponse.setPhoneNumbers(mapPhonesToPhoneNumbers(user.getPhones()));
+        return userDtoResponse;
+    }
+
+    @InheritConfiguration(name = "toUserDtoResponse")
+    default UserDtoResponse toUserDtoResponse(UserDtoRequest userDtoRequest, User user) {
+        UserDtoResponse userDtoResponse = toUserDtoResponse(user);
+        userDtoResponse.setPhoneNumbers(userDtoRequest.getPhoneNumbers());
+        return userDtoResponse;
+    }
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "phones", expression = "java(mapPhoneNumbersToPhones(userDtoRequest.getPhoneNumbers(), user))")
+    void updateUserFromDto(UserDtoRequest userDtoRequest, @MappingTarget User user);
+
+    @Named("mapPhonesToPhoneNumbers")
+    default List<String> mapPhonesToPhoneNumbers(List<Phone> phones) {
+        return phones.stream()
+                .map(Phone::getPhoneNumber)
+                .toList();
+    }
+
+    default List<Phone> mapPhoneNumbersToPhones(List<String> phoneNumbers, User user) {
+        return phoneNumbers.stream()
                 .map(phoneNumber -> Phone.builder()
                         .phoneNumber(phoneNumber)
                         .user(user)
                         .build())
                 .toList();
-
-        user.setLogin(userDtoRequest.getLogin());
-        user.setPassword(utilsUser.hashPassword(userDtoRequest.getPassword()));
-        user.setFirstName(userDtoRequest.getFirstName());
-        user.setLastName(userDtoRequest.getLastName());
-        user.setEmail(userDtoRequest.getEmail());
-        user.setUserStatus(userDtoRequest.getUserStatus());
-        user.setPhones(phones);
-        user.setOrders(userDtoRequest.getOrders());
-        return user;
     }
 
-    // User -> UserDtoResponse
-    public UserDtoResponse toUserDtoResponse(User user) {
-        List<String> phoneNumbers = user.getPhones().stream()
-                .map(Phone::getPhoneNumber)
-                .collect(Collectors.toList());
-
-        UserDtoResponse userDtoResponse = new UserDtoResponse();
-        userDtoResponse.setUuid(user.getId());
-        userDtoResponse.setLogin(user.getLogin());
-        userDtoResponse.setFirstName(user.getFirstName());
-        userDtoResponse.setLastName(user.getLastName());
-        userDtoResponse.setEmail(user.getEmail());
-        userDtoResponse.setUserStatus(user.getUserStatus());
-        userDtoResponse.setPhoneNumbers(phoneNumbers);
-        userDtoResponse.setOrders(user.getOrders());
-
-        return userDtoResponse;
-    }
-
-    // update User with UserDtoRequest
-    public void updateUserFromDto(UserDtoRequest userDtoRequest, User user) {
-        if (userDtoRequest.getLogin() != null && !userDtoRequest.getLogin().isEmpty()) {
-            user.setLogin(userDtoRequest.getLogin());
-        }
-
-        if (userDtoRequest.getPassword() != null && !userDtoRequest.getPassword().isEmpty()) {
-            user.setPassword(utilsUser.hashPassword(userDtoRequest.getPassword()));
-        }
-
-        if (userDtoRequest.getFirstName() != null && !userDtoRequest.getFirstName().isEmpty()) {
-            user.setFirstName(userDtoRequest.getFirstName());
-        }
-
-        if (userDtoRequest.getLastName() != null && !userDtoRequest.getLastName().isEmpty()) {
-            user.setLastName(userDtoRequest.getLastName());
-        }
-
-        if (userDtoRequest.getEmail() != null && !userDtoRequest.getEmail().isEmpty()) {
-            user.setEmail(userDtoRequest.getEmail());
-        }
-
-        if (userDtoRequest.getUserStatus() != null) {
-            user.setUserStatus(userDtoRequest.getUserStatus());
-        }
-
-        if (userDtoRequest.getPhoneNumbers() != null && !userDtoRequest.getPhoneNumbers().isEmpty()) {
-            List<Phone> updatedPhones = userDtoRequest.getPhoneNumbers().stream()
-                    .map(phoneNumber -> new Phone(null, phoneNumber, user)) // создаем Phone с текущим user как владельцем
-                    .toList();
-            user.getPhones().clear();
-            userRepository.save(user);
-            user.getPhones().addAll(updatedPhones);
-        }
-
-        if (userDtoRequest.getOrders() != null && !userDtoRequest.getOrders().isEmpty()) {
-            user.setOrders(userDtoRequest.getOrders());
-        }
-    }
 }

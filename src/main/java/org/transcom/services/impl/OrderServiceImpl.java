@@ -8,13 +8,12 @@ import org.transcom.entities.Order;
 import org.transcom.entities.enums.OrderStatus;
 import org.transcom.exceptions.OrderNotFoundException;
 import org.transcom.exceptions.enums.ErrorMessages;
-import org.transcom.mapper.OrderMapper;
+import org.transcom.mappers.OrderMapper;
 import org.transcom.repositories.OrderRepository;
 import org.transcom.services.OrderService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

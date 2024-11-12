@@ -5,5 +5,6 @@ public enum OrderStatus {
     POSTED,
     ASSIGNED,
     IN_TRANSIT,
-    DELIVERED;
+    DELIVERED,
+    DELETED;
 }

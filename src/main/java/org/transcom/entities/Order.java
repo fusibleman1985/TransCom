@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.transcom.entities.enums.OrderStatus;
-
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -21,9 +21,11 @@ public class Order {
     private UUID id;
 
     @Column(name = "weight")
-    private int weight;
+    @Min(value = 1, message = "Weight must be greater than zero")
+    private Integer weight;
 
     @Column(name = "price")
+    @Min(value = 1, message = "Price must be greater than zero")
     private BigDecimal price;
 
     @Column(name = "description")

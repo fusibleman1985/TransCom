@@ -24,6 +24,4 @@ public class Phone {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User user;
-
 }
-

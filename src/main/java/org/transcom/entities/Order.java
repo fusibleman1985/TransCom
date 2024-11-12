@@ -3,29 +3,29 @@ package org.transcom.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.transcom.enums.OrderStatus;
-
+import org.transcom.entities.enums.OrderStatus;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(name = "weight")
-    private int weight;
+    @Min(value = 1, message = "Weight must be greater than zero")
+    private Integer weight;
 
     @Column(name = "price")
+    @Min(value = 1, message = "Price must be greater than zero")
     private BigDecimal price;
 
     @Column(name = "description")

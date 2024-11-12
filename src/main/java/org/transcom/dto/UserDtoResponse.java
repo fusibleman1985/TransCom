@@ -1,33 +1,21 @@
 package org.transcom.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.transcom.entities.Order;
-import org.transcom.entities.User;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.transcom.entities.enums.UserStatus;
 
 import java.util.List;
 import java.util.UUID;
 
-/**
- * DTO for {@link User}
- */
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder
-public class UserDtoResponse {
-    private UUID id;
-    private String login;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private String email;
+@AllArgsConstructor
+@SuperBuilder
+public class UserDtoResponse extends UserDtoRequest {
+    private UUID uuid;
     private UserStatus userStatus;
-    private String createdAt;
-    private String updatedAt;
-    private List<String> phones;
-    private List<Order> orders;
 }

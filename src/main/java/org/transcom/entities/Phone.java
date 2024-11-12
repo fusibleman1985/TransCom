@@ -20,8 +20,8 @@ public class Phone {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonBackReference
     private User user;
 }

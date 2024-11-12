@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.transcom.entities.enums.TruckStatus;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -38,9 +39,9 @@ public class Truck {
     @Column(name = "location")
     private String location;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @Column(name = "driver_id")
-//    private User driverId;
+    @OneToMany(mappedBy = "truck", cascade = CascadeType.ALL)
+    @Column(name = "user_id")
+    private List<User> user;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonBackReference

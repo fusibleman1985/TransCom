@@ -8,7 +8,6 @@ public enum ErrorMessages {
     TRUCK_NOT_FOUND("Truck not found"),
     ERROR_DELETING_TRUCK_TYPE("There are Trucks of this Truck Type");
 
-
     private String message;
 
     ErrorMessages(String message) {

@@ -1,6 +1,6 @@
 package org.transcom.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,7 +34,7 @@ public class TruckType {
     @Column(name = "image_truck_type_name")
     private String imageUrl;
 
-    @OneToMany(mappedBy = "truckType", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "truckType", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Truck> trucks;
 }

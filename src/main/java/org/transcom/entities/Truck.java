@@ -1,11 +1,10 @@
 package org.transcom.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.transcom.entities.enums.TruckStatus;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -23,8 +22,8 @@ public class Truck {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "feet")
-    private int feet;
+    @Column(name = "length")
+    private int length;
 
     @Column(name = "weight")
     private int weight;
@@ -39,12 +38,11 @@ public class Truck {
     @Column(name = "location")
     private String location;
 
-    @OneToMany(mappedBy = "truck", cascade = CascadeType.ALL)
-    @Column(name = "user_id")
-    private List<User> user;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @Column(name = "user_id")
+//    private List<User> user;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonBackReference
-    @JoinColumn(name = "truck_type_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private TruckType truckType;
 }

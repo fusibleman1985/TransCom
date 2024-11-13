@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TruckTypeDto {
+public class TruckTypeDtoRequest {
 
     @NotBlank(message = "must not be empty")
     private String shortName;

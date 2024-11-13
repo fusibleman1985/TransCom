@@ -5,5 +5,6 @@ public enum TruckStatus {
     IN_TRANSIT,
     LOADING,
     UNLOADING,
-    UNAVAILABLE
+    UNAVAILABLE,
+    DELETED
 }

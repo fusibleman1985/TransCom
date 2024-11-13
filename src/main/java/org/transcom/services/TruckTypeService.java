@@ -1,19 +1,19 @@
 package org.transcom.services;
 
-import org.transcom.dto.TruckTypeDto;
+import org.transcom.dto.TruckTypeDtoRequest;
 import org.transcom.entities.TruckType;
 
 import java.util.List;
 
 public interface TruckTypeService {
 
-    TruckType createTruckType(TruckTypeDto truckType);
+    TruckType createTruckType(TruckTypeDtoRequest truckType);
 
     TruckType findTruckType(Long id);
 
     List<TruckType> findAllTruckTypes();
 
-    TruckType updateTruckType(Long id, TruckTypeDto truckType);
+    TruckType updateTruckType(Long id, TruckTypeDtoRequest truckType);
 
-    void deleteTruckType(Long id);
+    boolean deleteTruckType(Long id);
 }

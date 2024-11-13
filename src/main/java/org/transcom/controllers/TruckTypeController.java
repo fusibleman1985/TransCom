@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.transcom.dto.TruckTypeDto;
+import org.transcom.dto.TruckTypeDtoRequest;
 import org.transcom.entities.TruckType;
 import org.transcom.services.impl.TruckTypeServiceImpl;
 
@@ -21,8 +21,8 @@ public class TruckTypeController {
     private TruckTypeServiceImpl truckTypeService;
 
     @PostMapping
-    public ResponseEntity<TruckType> createTruckType(@RequestBody @Valid TruckTypeDto truckTypeDto) {
-        return ResponseEntity.ok(truckTypeService.createTruckType(truckTypeDto));
+    public ResponseEntity<TruckType> createTruckType(@RequestBody @Valid TruckTypeDtoRequest truckTypeDtoRequest) {
+        return ResponseEntity.ok(truckTypeService.createTruckType(truckTypeDtoRequest));
     }
 
     @GetMapping
@@ -37,14 +37,16 @@ public class TruckTypeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TruckType> updateTruckType(@PathVariable Long id, @RequestBody @Valid TruckTypeDto truckTypeToUpdate) {
+    public ResponseEntity<TruckType> updateTruckType(@PathVariable Long id, @RequestBody @Valid TruckTypeDtoRequest truckTypeToUpdate) {
         TruckType truckType = truckTypeService.updateTruckType(id, truckTypeToUpdate);
         return truckType != null ? ResponseEntity.ok(truckType) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTruckType(@PathVariable Long id) {
-        truckTypeService.deleteTruckType(id);
-        return ResponseEntity.noContent().build();
+        if (truckTypeService.deleteTruckType(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

@@ -2,10 +2,11 @@ package org.transcom.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 import org.transcom.entities.enums.OrderStatus;
-import javax.validation.constraints.Min;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 

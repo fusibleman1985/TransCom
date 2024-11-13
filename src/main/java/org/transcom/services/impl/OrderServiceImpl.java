@@ -2,7 +2,6 @@ package org.transcom.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 import org.transcom.dto.OrderDtoRequest;
 import org.transcom.entities.Order;
 import org.transcom.entities.enums.OrderStatus;
@@ -12,20 +11,18 @@ import org.transcom.mappers.OrderMapper;
 import org.transcom.repositories.OrderRepository;
 import org.transcom.services.OrderService;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Validated
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
     @Override
-    public Order saveOrder(@Valid OrderDtoRequest orderDtoRequest) {
+    public Order saveOrder(OrderDtoRequest orderDtoRequest) {
         Order order = orderMapper.toEntity(orderDtoRequest);
         return orderRepository.save(order);
     }

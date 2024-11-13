@@ -1,9 +1,10 @@
 package org.transcom.dto;
 
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.transcom.entities.enums.OrderStatus;
 
-import javax.validation.constraints.Min;
+
 import java.math.BigDecimal;
 
 @Getter

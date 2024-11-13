@@ -1,5 +1,6 @@
 package org.transcom.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,7 @@ import org.transcom.dto.OrderDtoRequest;
 import org.transcom.entities.Order;
 import org.transcom.services.OrderService;
 
-import javax.validation.Valid;
+
 import java.util.List;
 import java.util.UUID;
 

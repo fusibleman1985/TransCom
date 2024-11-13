@@ -1,0 +1,354 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="your_name">
+        <insert tableName="truck_types">
+            <column name="short_name" value="DRYV"/>
+            <column name="full_name" value="Dry Van"/>
+            <column name="length_meters" valueNumeric="16.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/dry_van.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="VAN"/>
+            <column name="full_name" value="Standard Van"/>
+            <column name="length_meters" valueNumeric="14.0"/>
+            <column name="capacity_cubic_units" valueNumeric="40.0"/>
+            <column name="image_url" value="https://example.com/van.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="CITYVAN"/>
+            <column name="full_name" value="City Van"/>
+            <column name="length_meters" valueNumeric="6.0"/>
+            <column name="capacity_cubic_units" valueNumeric="3.0"/>
+            <column name="image_url" value="https://example.com/city_van.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="CURT"/>
+            <column name="full_name" value="Curtain Side Trailer"/>
+            <column name="length_meters" valueNumeric="18.0"/>
+            <column name="capacity_cubic_units" valueNumeric="55.0"/>
+            <column name="image_url" value="https://example.com/curtain_side.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="TAIL"/>
+            <column name="full_name" value="Tail Lift Trailer"/>
+            <column name="length_meters" valueNumeric="15.0"/>
+            <column name="capacity_cubic_units" valueNumeric="48.0"/>
+            <column name="image_url" value="https://example.com/tail_lift.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="FLAT"/>
+            <column name="full_name" value="Flatbed"/>
+            <column name="length_meters" valueNumeric="17.0"/>
+            <column name="capacity_cubic_units" valueNumeric="60.0"/>
+            <column name="image_url" value="https://example.com/flatbed.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="MOVE"/>
+            <column name="full_name" value="Moving Floor"/>
+            <column name="length_meters" valueNumeric="15.0"/>
+            <column name="capacity_cubic_units" valueNumeric="55.0"/>
+            <column name="image_url" value="https://example.com/moving_floor.jpg"/>
+        </insert>
+
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="STEP"/>
+            <column name="full_name" value="Step Deck Trailer"/>
+            <column name="length_meters" valueNumeric="18.5"/>
+            <column name="capacity_cubic_units" valueNumeric="65.0"/>
+            <column name="image_url" value="https://example.com/step_deck.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="LOWB"/>
+            <column name="full_name" value="Lowboy Trailer"/>
+            <column name="length_meters" valueNumeric="13.0"/>
+            <column name="capacity_cubic_units" valueNumeric="45.0"/>
+            <column name="image_url" value="https://example.com/lowboy.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="DBLE"/>
+            <column name="full_name" value="Double Drop Trailer"/>
+            <column name="length_meters" valueNumeric="20.0"/>
+            <column name="capacity_cubic_units" valueNumeric="70.0"/>
+            <column name="image_url" value="https://example.com/double_drop.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="EXTD"/>
+            <column name="full_name" value="Extendable Flatbed Trailer"/>
+            <column name="length_meters" valueNumeric="22.0"/>
+            <column name="capacity_cubic_units" valueNumeric="75.0"/>
+            <column name="image_url" value="https://example.com/extendable_flatbed.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="CONT"/>
+            <column name="full_name" value="Container Truck"/>
+            <column name="length_meters" valueNumeric="12.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/container_truck.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="SIDE"/>
+            <column name="full_name" value="Side Wall Trailer"/>
+            <column name="length_meters" valueNumeric="14.0"/>
+            <column name="capacity_cubic_units" valueNumeric="55.0"/>
+            <column name="image_url" value="https://example.com/side_wall.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="FBVS"/>
+            <column name="full_name" value="Flat Body with Vertical Sides"/>
+            <column name="length_meters" valueNumeric="16.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/flat_body_vertical_sides.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="REFR"/>
+            <column name="full_name" value="Refrigerated Trailer"/>
+            <column name="length_meters" valueNumeric="16.0"/>
+            <column name="capacity_cubic_units" valueNumeric="45.0"/>
+            <column name="image_url" value="https://example.com/refrigerated_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="REEF"/>
+            <column name="full_name" value="Reefer Trailer"/>
+            <column name="length_meters" valueNumeric="17.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/reefer_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="INSU"/>
+            <column name="full_name" value="Insulated Trailer"/>
+            <column name="length_meters" valueNumeric="16.0"/>
+            <column name="capacity_cubic_units" valueNumeric="47.0"/>
+            <column name="image_url" value="https://example.com/insulated_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="MCTR"/>
+            <column name="full_name" value="Multicar Trailer"/>
+            <column name="length_meters" valueNumeric="18.0"/>
+            <column name="capacity_cubic_units" valueNumeric="55.0"/>
+            <column name="image_url" value="https://example.com/multicar_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="CARR"/>
+            <column name="full_name" value="Car Hauler"/>
+            <column name="length_meters" valueNumeric="17.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/car_hauler.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="DUMP"/>
+            <column name="full_name" value="Dump Truck"/>
+            <column name="length_meters" valueNumeric="12.0"/>
+            <column name="capacity_cubic_units" valueNumeric="40.0"/>
+            <column name="image_url" value="https://example.com/dump_truck.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="TANK"/>
+            <column name="full_name" value="Tank Trailer"/>
+            <column name="length_meters" valueNumeric="15.0"/>
+            <column name="capacity_cubic_units" valueNumeric="60.0"/>
+            <column name="image_url" value="https://example.com/tank_trailer.jpg"/>
+        </insert>
+        <insert tableName="truck_types">
+            <column name="short_name" value="EDIB"/>
+            <column name="full_name" value="Tank for Edible Liquids"/>
+            <column name="length_meters" valueNumeric="14.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/tank_edible_liquids.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="CHEM"/>
+            <column name="full_name" value="General Chemical Trailer"/>
+            <column name="length_meters" valueNumeric="15.0"/>
+            <column name="capacity_cubic_units" valueNumeric="55.0"/>
+            <column name="image_url" value="https://example.com/general_chemical_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="FUEL"/>
+            <column name="full_name" value="Fuel Tanker"/>
+            <column name="length_meters" valueNumeric="13.0"/>
+            <column name="capacity_cubic_units" valueNumeric="45.0"/>
+            <column name="image_url" value="https://example.com/fuel_tanker.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="LNGG"/>
+            <column name="full_name" value="LNG/LPG Gas Tank Truck"/>
+            <column name="length_meters" valueNumeric="14.0"/>
+            <column name="capacity_cubic_units" valueNumeric="52.0"/>
+            <column name="image_url" value="https://example.com/lng_lpg_truck.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="CYLN"/>
+            <column name="full_name" value="Gas Cylinder Truck"/>
+            <column name="length_meters" valueNumeric="12.0"/>
+            <column name="capacity_cubic_units" valueNumeric="40.0"/>
+            <column name="image_url" value="https://example.com/gas_cylinder_truck.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="BTMN"/>
+            <column name="full_name" value="Bitumen Tank Trailer"/>
+            <column name="length_meters" valueNumeric="16.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/bitumen_tank_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="FISH"/>
+            <column name="full_name" value="Fish Carrier"/>
+            <column name="length_meters" valueNumeric="14.0"/>
+            <column name="capacity_cubic_units" valueNumeric="48.0"/>
+            <column name="image_url" value="https://example.com/fish_carrier.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="LFIS"/>
+            <column name="full_name" value="Live Fish Carrier"/>
+            <column name="length_meters" valueNumeric="14.0"/>
+            <column name="capacity_cubic_units" valueNumeric="48.0"/>
+            <column name="image_url" value="https://example.com/live_fish_carrier.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="POLE"/>
+            <column name="full_name" value="Pole Type Trailer"/>
+            <column name="length_meters" valueNumeric="18.0"/>
+            <column name="capacity_cubic_units" valueNumeric="60.0"/>
+            <column name="image_url" value="https://example.com/pole_type_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="LOGG"/>
+            <column name="full_name" value="Logging Truck"/>
+            <column name="length_meters" valueNumeric="17.0"/>
+            <column name="capacity_cubic_units" valueNumeric="55.0"/>
+            <column name="image_url" value="https://example.com/logging_truck.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="TIMB"/>
+            <column name="full_name" value="Timber Lorry"/>
+            <column name="length_meters" valueNumeric="17.0"/>
+            <column name="capacity_cubic_units" valueNumeric="55.0"/>
+            <column name="image_url" value="https://example.com/timber_lorry.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="DRBK"/>
+            <column name="full_name" value="Dry Bulk Trailer"/>
+            <column name="length_meters" valueNumeric="16.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/dry_bulk_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="CEMT"/>
+            <column name="full_name" value="Cement Tank Trailer"/>
+            <column name="length_meters" valueNumeric="15.0"/>
+            <column name="capacity_cubic_units" valueNumeric="48.0"/>
+            <column name="image_url" value="https://example.com/cement_tank_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="FLUR"/>
+            <column name="full_name" value="Flour Truck"/>
+            <column name="length_meters" valueNumeric="13.0"/>
+            <column name="capacity_cubic_units" valueNumeric="42.0"/>
+            <column name="image_url" value="https://example.com/flour_truck.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="GRAI"/>
+            <column name="full_name" value="Grain Truck"/>
+            <column name="length_meters" valueNumeric="15.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/grain_truck.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="CNCP"/>
+            <column name="full_name" value="Concrete Panel Trailer"/>
+            <column name="length_meters" valueNumeric="16.0"/>
+            <column name="capacity_cubic_units" valueNumeric="53.0"/>
+            <column name="image_url" value="https://example.com/concrete_panel_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="GLAS"/>
+            <column name="full_name" value="Trailer for Glass Transporting"/>
+            <column name="length_meters" valueNumeric="15.0"/>
+            <column name="capacity_cubic_units" valueNumeric="45.0"/>
+            <column name="image_url" value="https://example.com/glass_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="LIVE"/>
+            <column name="full_name" value="Livestock Trailer"/>
+            <column name="length_meters" valueNumeric="17.0"/>
+            <column name="capacity_cubic_units" valueNumeric="60.0"/>
+            <column name="image_url" value="https://example.com/livestock_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="CATL"/>
+            <column name="full_name" value="Cattle Trailer"/>
+            <column name="length_meters" valueNumeric="17.0"/>
+            <column name="capacity_cubic_units" valueNumeric="60.0"/>
+            <column name="image_url" value="https://example.com/cattle_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="PULT"/>
+            <column name="full_name" value="Poultry Truck/Trailer"/>
+            <column name="length_meters" valueNumeric="16.0"/>
+            <column name="capacity_cubic_units" valueNumeric="55.0"/>
+            <column name="image_url" value="https://example.com/poultry_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="COIL"/>
+            <column name="full_name" value="Coil Trailer"/>
+            <column name="length_meters" valueNumeric="14.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/coil_trailer.jpg"/>
+        </insert>
+
+        <insert tableName="truck_types">
+            <column name="short_name" value="ROLL"/>
+            <column name="full_name" value="Roll Trailer"/>
+            <column name="length_meters" valueNumeric="15.0"/>
+            <column name="capacity_cubic_units" valueNumeric="50.0"/>
+            <column name="image_url" value="https://example.com/roll_trailer.jpg"/>
+        </insert>
+
+
+    </changeSet>
+</databaseChangeLog>

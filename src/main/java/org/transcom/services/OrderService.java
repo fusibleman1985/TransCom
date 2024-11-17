@@ -16,5 +16,5 @@ public interface OrderService {
 
     Order updateOrder(OrderDtoRequest orderDtoRequest, UUID id);
 
-    void deleteOrder(UUID id);
+    boolean deleteOrder(UUID id);
 }

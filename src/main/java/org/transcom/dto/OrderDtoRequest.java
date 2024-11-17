@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class OrderDtoRequest {
 
     @Min(value = 1, message = "Weight must be greater than zero")
-    private int weight;
+    private Integer weight;
 
     @Min(value = 1, message = "Price must be greater than zero")
     private BigDecimal price;

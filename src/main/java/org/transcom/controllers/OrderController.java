@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.transcom.dto.OrderDtoRequest;
 import org.transcom.entities.Order;
+import org.transcom.exceptions.OrderNotFoundException;
 import org.transcom.services.OrderService;
 
 
@@ -48,7 +49,9 @@ public class OrderController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable UUID id) {
-        orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
+        if (orderService.deleteOrder(id)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

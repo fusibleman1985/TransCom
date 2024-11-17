@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.transcom.entities.enums.UserStatus;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter

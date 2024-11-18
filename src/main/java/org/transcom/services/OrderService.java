@@ -14,7 +14,7 @@ public interface OrderService {
 
     Order findOrderById(UUID id);
 
-    Order updateOrder(OrderDtoRequest orderDtoRequest, UUID id);
+    Order updateOrder(UUID id, OrderDtoRequest orderDtoRequest);
 
-    void deleteOrder(UUID id);
+    boolean deleteOrder(UUID id);
 }

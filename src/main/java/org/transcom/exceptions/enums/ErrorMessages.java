@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum ErrorMessages {
     ORDER_NOT_FOUND("Order not found"),
     TRUCK_NOT_FOUND("Truck not found"),
-    ERROR_DELETING_TRUCK_TYPE("There are Trucks of this Truck Type");
+    ERROR_DELETING_TRUCK_TYPE("There are Trucks of this Truck Type"),
+    USER_NOT_FOUND("User not found");
 
     private String message;
 

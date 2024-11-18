@@ -1,5 +1,6 @@
 package org.transcom.services;
 
+import jakarta.validation.Valid;
 import org.transcom.dto.UserDtoRequest;
 import org.transcom.dto.UserDtoResponse;
 
@@ -8,7 +9,7 @@ import java.util.UUID;
 
 public interface UserService {
 
-    UserDtoResponse createUser(UserDtoRequest userDto);
+    UserDtoResponse createUser(@Valid UserDtoRequest userDto);
 
     List<UserDtoResponse> findAllUsers();
 
@@ -16,5 +17,5 @@ public interface UserService {
 
     UserDtoResponse updateUser(UUID id, UserDtoRequest userDtoRequest);
 
-    void deleteUser(UUID id);
+    boolean deleteUser(UUID id);
 }

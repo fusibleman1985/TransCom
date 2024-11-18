@@ -15,6 +15,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @SuperBuilder
 public class UserDtoResponse extends UserDtoRequest {
-    private UUID uuid;
+    private UUID id;
     private UserStatus userStatus;
 }

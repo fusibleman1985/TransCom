@@ -1,6 +1,9 @@
 package org.transcom.mappers;
 
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 import org.transcom.dto.UserDtoRequest;
 import org.transcom.dto.UserDtoResponse;
 import org.transcom.entities.Phone;
@@ -20,7 +23,6 @@ public interface UserMapper {
     @Mapping(target = "phones", expression = "java(mapPhoneNumbersToPhones(userDtoRequest.getPhoneNumbers(), user))")
     User toUser(UserDtoRequest userDtoRequest);
 
-    @Mapping(target = "uuid", source = "id")
     @Mapping(target = "phoneNumbers", ignore = true)
     UserDtoResponse toUserDtoResponse(User user);
 
@@ -30,19 +32,14 @@ public interface UserMapper {
         return userDtoResponse;
     }
 
-    @InheritConfiguration(name = "toUserDtoResponse")
-    default UserDtoResponse toUserDtoResponse(UserDtoRequest userDtoRequest, User user) {
-        UserDtoResponse userDtoResponse = toUserDtoResponse(user);
-        userDtoResponse.setPhoneNumbers(userDtoRequest.getPhoneNumbers());
-        return userDtoResponse;
-    }
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "phones", expression = "java(mapPhoneNumbersToPhones(userDtoRequest.getPhoneNumbers(), user))")
-    void updateUserFromDto(UserDtoRequest userDtoRequest, @MappingTarget User user);
+    default void updateUserFromDto(UserDtoRequest userDtoRequest, @MappingTarget User user) {
+        user.setPhones(mapPhoneNumbersToPhones(userDtoRequest.getPhoneNumbers(), user));
+    }
 
     @Named("mapPhonesToPhoneNumbers")
     default List<String> mapPhonesToPhoneNumbers(List<Phone> phones) {

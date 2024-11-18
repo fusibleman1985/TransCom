@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.transcom.dto.OrderDtoRequest;
 import org.transcom.entities.Order;
+import org.transcom.entities.User;
 import org.transcom.entities.enums.OrderStatus;
 import org.transcom.exceptions.OrderNotFoundException;
+import org.transcom.exceptions.UserNotFoundException;
 import org.transcom.exceptions.enums.ErrorMessages;
 import org.transcom.mappers.OrderMapper;
 import org.transcom.repositories.OrderRepository;
+import org.transcom.repositories.UserRepository;
 import org.transcom.services.OrderService;
 
 import java.util.List;
@@ -20,10 +23,13 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final UserRepository userRepository;
 
     @Override
     public Order saveOrder(OrderDtoRequest orderDtoRequest) {
-        Order order = orderMapper.toEntity(orderDtoRequest);
+        User user = userRepository.findById(orderDtoRequest.getUserId())
+                .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND.getMessage()));
+        Order order = orderMapper.toEntity(orderDtoRequest, user);
         return orderRepository.save(order);
     }
 
@@ -39,10 +45,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order updateOrder(OrderDtoRequest orderDtoRequest, UUID id) {
+    public Order updateOrder(UUID id,OrderDtoRequest orderDtoRequest) {
         Order orderToUpdate = findOrderById(id);
-        Order updatedOrder = orderMapper.updatedEntityFromDto(orderDtoRequest, orderToUpdate);
-        return orderRepository.save(updatedOrder);
+        User user = userRepository.findById(orderDtoRequest.getUserId())
+                .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND.getMessage()));
+        orderMapper.updatedEntityFromDto(orderDtoRequest, orderToUpdate, user);
+        return orderRepository.save(orderToUpdate);
     }
 
     @Override

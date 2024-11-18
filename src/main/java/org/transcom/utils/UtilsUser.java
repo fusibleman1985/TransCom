@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 public class UtilsUser {
 
     public String hashPassword(String password) {
+//        validatePassword(password);
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedhash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -29,6 +30,16 @@ public class UtilsUser {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    private void validatePassword(String password) {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$";
+        if (!password.matches(passwordPattern)) {
+            throw new IllegalArgumentException(
+                    "Password must be at least 8 characters long, include one uppercase letter, " +
+                            "one lowercase letter, one number, and one special character(@$!%*?&#)."
+            );
+        }
     }
 
 }

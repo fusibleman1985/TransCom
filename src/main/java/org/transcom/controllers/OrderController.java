@@ -10,7 +10,6 @@ import org.transcom.dto.OrderDtoRequest;
 import org.transcom.entities.Order;
 import org.transcom.services.OrderService;
 
-
 import java.util.List;
 import java.util.UUID;
 
@@ -42,13 +41,15 @@ public class OrderController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable UUID id, @RequestBody @Valid OrderDtoRequest orderDtoRequest) {
-        Order updatedOrder = orderService.updateOrder(orderDtoRequest,id);
+        Order updatedOrder = orderService.updateOrder(id,orderDtoRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedOrder);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable UUID id) {
-        orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
+        if (orderService.deleteOrder(id)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

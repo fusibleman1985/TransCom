@@ -22,8 +22,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDtoRequest> registerUser(@RequestBody @Valid UserDtoRequest userDto) {
-        UserDtoRequest resultUser = userService.createUser(userDto);
+    public ResponseEntity<UserDtoResponse> registerUser(@RequestBody @Valid UserDtoRequest userDto) {
+        UserDtoResponse resultUser = userService.createUser(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(resultUser);
     }
 
@@ -43,10 +43,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDtoRequest> updateUser(@PathVariable UUID id, @RequestBody @Valid UserDtoRequest userDto) {
+    public ResponseEntity<UserDtoResponse> updateUser(@PathVariable UUID id, @RequestBody @Valid UserDtoRequest userDto) {
         UserDtoResponse userDtoToUpdate = userService.findUserById(id);
         if (userDtoToUpdate != null) {
-            UserDtoRequest updatedUser = userService.updateUser(id, userDto);
+            UserDtoResponse updatedUser = userService.updateUser(id, userDto);
             return ResponseEntity.ok(updatedUser);
         }
         return ResponseEntity.notFound().build();

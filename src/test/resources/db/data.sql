@@ -1,9 +1,9 @@
 -- Inserting sample users
 INSERT INTO users (id, login, password, first_name, last_name, email, created_at, updated_at, user_status)
-VALUES ('111e4567-e89b-12d3-a456-426614174000', 'user1', 'password1', 'John', 'Doe', 'john.doe@example.com', NOW(), NOW(),
+VALUES ('111e4567-e89b-12d3-a456-426614174000', 'user1', 'Password123!', 'John', 'Doe', 'john.doe@example.com', NOW(), NOW(),
         'ACTIVE'),
-       ('222e4567-e89b-12d3-a456-426614174000', 'user2', 'password2', 'Jane', 'Smith', 'jane.smith@example.com', NOW(), NOW(),
-        'INACTIVE');
+       ('222e4567-e89b-12d3-a456-426614174000', 'user2', 'Password321!', 'Jane', 'Smith', 'jane.smith@example.com', NOW(), NOW(),
+        'BLOCKED');
 
 -- Inserting sample orders
 INSERT INTO orders (id, weight, price, description, order_status, user_id)

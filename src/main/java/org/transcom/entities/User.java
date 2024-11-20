@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,21 +34,17 @@ public class User {
 
     @Column(name = "login", nullable = false, unique = true)
     @NotBlank(message = "Login cannot be blank")
-    @Size(min = 5, max = 50, message = "Login must be between 5 and 50 characters")
     private String login;
 
     @Column(name = "password", nullable = false)
-    @NotBlank(message = "Password cannot be blank")
     private String password;
 
     @Column(name = "first_name", nullable = false)
     @NotBlank(message = "First name cannot be blank")
-    @Size(max = 100, message = "First name must be less than 100 characters")
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
     @NotBlank(message = "Last name cannot be blank")
-    @Size(max = 100, message = "Last name must be less than 100 characters")
     private String lastName;
 
     @Column(name = "email", nullable = false)
@@ -82,7 +77,8 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(id, user.id) &&
-                Objects.equals(login, user.login) &&
+                Objects.equals(login, user.login) && //
+                Objects.equals(password, user.password) &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(email, user.email);

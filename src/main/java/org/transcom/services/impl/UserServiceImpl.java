@@ -9,6 +9,7 @@ import org.transcom.dto.UserDtoResponse;
 import org.transcom.entities.User;
 import org.transcom.entities.enums.UserStatus;
 import org.transcom.exceptions.UserNotFoundException;
+import org.transcom.exceptions.enums.ErrorMessages;
 import org.transcom.mappers.UserMapper;
 import org.transcom.repositories.PhoneRepository;
 import org.transcom.repositories.UserRepository;
@@ -46,17 +47,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDtoResponse findUserById(UUID id) {
-        User userById = userRepository.findById(id).orElse(null);
-        if (userById != null) {
-            return userMapper.toUserDtoResponseWithPhones(userById);
-        }
-        return null;
+        User userById = userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND.getMessage()));
+        return userMapper.toUserDtoResponseWithPhones(userById);
     }
 
     @Override
     public UserDtoResponse updateUser(UUID id, UserDtoRequest userDtoRequest) {
         User userById = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND.getMessage()));
         phoneRepository.deleteAll(userById.getPhones());
         userMapper.updateUserFromDto(userDtoRequest, userById);
         userById.setPassword(utilsUser.hashPassword(userDtoRequest.getPassword()));

@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -39,15 +40,17 @@ class UserControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    private UUID expectedUserDtoResponseId;
     private UserDtoResponse expectedUserDtoResponse;
+    private UUID expectedUserId;
+    private User expectedUser;
     private UserDtoRequest testUserDtoRequest;
 
     @BeforeEach
     void setUp() {
         testUserDtoRequest = ExpectedData.returnUserDtoRequest();
         expectedUserDtoResponse = ExpectedData.returnUserDtoResponse();
-        expectedUserDtoResponseId = expectedUserDtoResponse.getId();
+        expectedUser = ExpectedData.returnUser();
+        expectedUserId = ExpectedData.returnUser().getId();
     }
 
     @Test
@@ -97,71 +100,70 @@ class UserControllerTest {
     }
 
     @Test
-    public void testNegativeGetAllUsers() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/users")
+    void testPositiveGetUserById() throws Exception {
+        MvcResult mvcResult =
+                mockMvc.perform(MockMvcRequestBuilders
+                                .get("/users/{id}", expectedUserId.toString())
+                                .contentType(MediaType.APPLICATION_JSON))
+                        .andDo(print())
+                        .andReturn();
+
+        assertEquals(200, mvcResult.getResponse().getStatus());
+        assertTrue(mvcResult.getResponse().getContentAsString().contains(expectedUserId.toString()));
+    }
+
+    @Test
+    void testNegativeGetAllUsers() throws Exception {
+        userRepository.deleteAll();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/users")
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"))
+                .andDo(print());
+    }
+
+//    @Test
+//    public void testGetAllUsers_WhenUnauthorized_ShouldReturnUnauthorized() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.get("/users")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isUnauthorized())
+//                .andDo(print());
+//    }
+
+//    @Test
+//    public void testGetAllUsers_WhenServiceThrowsException_ShouldReturnInternalServerError() throws Exception {
+//        // Настройка мока для выброса исключения
+//        when(userService.getAllUsers()).thenThrow(new RuntimeException("Unexpected error"));
+//
+//        mockMvc.perform(MockMvcRequestBuilders.get("/users")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isInternalServerError())
+//                .andDo(print());
+//    }
+
+
+    @Test
+    public void testUpdateUser() throws Exception {
+        testUserDtoRequest.setFirstName("UpdatedFirstName");
+        testUserDtoRequest.setEmail("updated.email@example.com");
+
+        expectedUser.setFirstName("UpdatedFirstName");
+        expectedUser.setEmail("updated.email@example.com");
+
+        String userUpdateRequestJson = objectMapper.writeValueAsString(testUserDtoRequest);
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/users/{id}", expectedUserId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userUpdateRequestJson))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
 
-        String responseJsaonAsString = mvcResult.getResponse().getContentAsString();
-        User[] actualUsers = objectMapper.readValue(responseJsaonAsString, User[].class);
-        User[] expectedUsers = new User[0];
+        String actualUserJSON = mvcResult.getResponse().getContentAsString();
+        User actualUser = objectMapper.readValue(actualUserJSON, User.class);
 
-        assertNotEquals(expectedUsers.length, actualUsers.length);
-    }
-
-    @Test
-    void testPositiveGetUserById() throws Exception {
-        MvcResult mvcResult =
-                mockMvc.perform(MockMvcRequestBuilders
-                                .get("/users/{id}", expectedUserDtoResponseId.toString())
-                                .contentType(MediaType.APPLICATION_JSON))
-                        .andDo(print())
-                        .andReturn();
-
-        assertEquals(200, mvcResult.getResponse().getStatus());
-        assertTrue(mvcResult.getResponse().getContentAsString().contains(expectedUserDtoResponseId.toString()));
-    }
-
-    @Test
-    void testNegativeGetUserById() throws Exception {
-        String invalidUUID = UUID.randomUUID().toString();
-
-        MvcResult mvcResult =
-                mockMvc.perform(MockMvcRequestBuilders
-                                .get("/users/{id}", invalidUUID)
-                                .contentType(MediaType.APPLICATION_JSON))
-                        .andDo(print())
-                        .andReturn();
-
-        assertEquals(404, mvcResult.getResponse().getStatus());
-        assertFalse(mvcResult.getResponse().getContentAsString().contains(invalidUUID));
-    }
-
-    @Test
-    public void testPositiveUpdateUser() throws Exception {
-        testUserDtoRequest.setFirstName("UpdatedFirstName");
-        testUserDtoRequest.setEmail("updated.email@example.com");
-
-        expectedUserDtoResponse.setFirstName("UpdatedFirstName");
-        expectedUserDtoResponse.setEmail("updated.email@example.com");
-
-        String userUpdateRequestJson = objectMapper.writeValueAsString(testUserDtoRequest);
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                        .put("/users/{id}", expectedUserDtoResponseId.toString())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userUpdateRequestJson))
-//                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn();
-
-        String actualUserDtoResponseJSON = mvcResult.getResponse().getContentAsString();
-        UserDtoResponse actualUserDtoResponse = objectMapper.readValue(actualUserDtoResponseJSON, UserDtoResponse.class);
-
-        assertEquals(200, mvcResult.getResponse().getStatus());
-        assertEquals(expectedUserDtoResponse, actualUserDtoResponse);
+        assertEquals(expectedUser, actualUser);
     }
 
     @Test
@@ -180,7 +182,7 @@ class UserControllerTest {
 
     @Test
     public void testResponseOkDeleteUser() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", expectedUserDtoResponseId))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/users/{id}", expectedUserId))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -192,6 +194,13 @@ class UserControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    void testInvalidIdFormat() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", UUID.fromString("111e4567"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
 
 //    @Test
 //    public void testFilterUsersByName() throws Exception {

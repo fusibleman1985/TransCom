@@ -1,20 +1,23 @@
 package org.transcom.services;
 
 import org.transcom.dto.TruckDtoRequest;
-import org.transcom.entities.Truck;
+import org.transcom.dto.TruckDtoResponse;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface TruckService {
 
-    Truck createTruck(TruckDtoRequest truckDtoRequest);
+    TruckDtoResponse createTruck(TruckDtoRequest truckDtoRequest);
 
-    Truck findTruckById(UUID id);
+    TruckDtoResponse findTruckById(UUID id);
 
-    List<Truck> findAllTrucks();
+    List<TruckDtoResponse> findAllTrucks();
 
-    Truck updateTruck(UUID id, TruckDtoRequest truckDtoRequest);
+    List<TruckDtoResponse> findTrucksByTruckTypeShortName(String truckTypeShortName);
+
+    TruckDtoResponse updateTruck(UUID id, TruckDtoRequest truckDtoRequest);
 
     boolean deleteTruck(UUID id);
+
 }

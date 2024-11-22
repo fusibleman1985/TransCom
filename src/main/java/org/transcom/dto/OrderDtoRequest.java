@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.transcom.entities.enums.OrderStatus;
 
-
 import java.math.BigDecimal;
 import java.util.UUID;
 

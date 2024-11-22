@@ -61,6 +61,13 @@ public interface UserMapper {
                 .toList();
     }
 
+    default List<String> map(List<Phone> phones) {
+        return phones.stream()
+                .map(Phone::getPhoneNumber)
+                .toList();
+    }
+
+
     default List<Phone> mapPhoneNumbersToPhones(List<String> phoneNumbers, User user) {
         return phoneNumbers.stream()
                 .map(phoneNumber -> Phone.builder()

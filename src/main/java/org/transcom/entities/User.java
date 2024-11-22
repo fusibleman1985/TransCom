@@ -66,6 +66,11 @@ public class User {
     @JsonManagedReference
     private List<Phone> phones;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    @JsonManagedReference
+    private Company company;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @JsonManagedReference

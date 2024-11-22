@@ -15,13 +15,16 @@ import org.transcom.dto.UserDtoRequest;
 import org.transcom.dto.UserDtoResponse;
 import org.transcom.entities.User;
 import org.transcom.entities.enums.UserStatus;
+import org.transcom.exceptions.UserNotFoundException;
+import org.transcom.exceptions.enums.ErrorMessages;
 import org.transcom.mappers.UserMapper;
 import org.transcom.repositories.UserRepository;
 import org.transcom.utils.ExpectedData;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -100,6 +103,17 @@ class UserControllerTest {
     }
 
     @Test
+    void testNegativeGetAllUsers() throws Exception {
+        userRepository.deleteAll();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/users")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"))
+                .andDo(print());
+    }
+
+    @Test
     void testPositiveGetUserById() throws Exception {
         MvcResult mvcResult =
                 mockMvc.perform(MockMvcRequestBuilders
@@ -113,35 +127,18 @@ class UserControllerTest {
     }
 
     @Test
-    void testNegativeGetAllUsers() throws Exception {
-        userRepository.deleteAll();
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/users")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json("[]"))
-                .andDo(print());
+    void testNegativeGetUserById() throws Exception {
+        MvcResult mvcResult =
+                mockMvc.perform(MockMvcRequestBuilders
+                                .get("/users/{id}", UUID.randomUUID().toString())
+                                .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNotFound())
+                        .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
+                        .andExpect(result ->
+                                assertEquals(ErrorMessages.USER_NOT_FOUND.getMessage(), result.getResolvedException().getMessage()))
+                        .andDo(print())
+                        .andReturn();
     }
-
-//    @Test
-//    public void testGetAllUsers_WhenUnauthorized_ShouldReturnUnauthorized() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/users")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isUnauthorized())
-//                .andDo(print());
-//    }
-
-//    @Test
-//    public void testGetAllUsers_WhenServiceThrowsException_ShouldReturnInternalServerError() throws Exception {
-//        // Настройка мока для выброса исключения
-//        when(userService.getAllUsers()).thenThrow(new RuntimeException("Unexpected error"));
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get("/users")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isInternalServerError())
-//                .andDo(print());
-//    }
-
 
     @Test
     public void testUpdateUser() throws Exception {
@@ -177,6 +174,9 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userUpdateRequestJson))
                 .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
+                .andExpect(result ->
+                        assertEquals(ErrorMessages.USER_NOT_FOUND.getMessage(), result.getResolvedException().getMessage()))
                 .andDo(print());
     }
 
@@ -193,48 +193,5 @@ class UserControllerTest {
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
-
-    @Test
-    void testInvalidIdFormat() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", UUID.fromString("111e4567"))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andDo(print());
-    }
-
-//    @Test
-//    public void testFilterUsersByName() throws Exception {
-//    String methodName = new Throwable().getStackTrace()[0].getMethodName();
-//    System.out.println(">>> Start test: " + methodName);
-//
-//    mockMvc.perform(MockMvcRequestBuilders.get("/users?name=John")
-//                    .contentType(MediaType.APPLICATION_JSON))
-//            .andExpect(status().isOk())
-//            .andDo(print());
-//    }
-//
-//    @Test
-//    public void testPagination() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/users?page=0&size=10")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andDo(print());
-//    }
-//
-//    @Test
-//    public void testUnauthorizedAccess() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/users")
-//                        .header("Authorization", "InvalidToken"))
-//                .andExpect(status().isUnauthorized())
-//                .andDo(print());
-//    }
-//
-//    @Test
-//    public void testHandleException() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/users/{id}", "invalid-id"))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(result -> assertTrue(result.getResolvedException() instanceof IllegalArgumentException))
-//                .andDo(print());
-//    }
 
 }

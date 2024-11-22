@@ -11,6 +11,7 @@ import org.transcom.entities.Order;
 import org.transcom.entities.enums.UserStatus;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -35,4 +36,25 @@ public class UserDtoRequest {
     private List<String> phoneNumbers;
     private List<Order> orders;
     private Long companyId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserDtoRequest that = (UserDtoRequest) o;
+
+        return Objects.equals(login, that.login)
+                && Objects.equals(password, that.password)
+                && Objects.equals(firstName, that.firstName)
+                && Objects.equals(lastName, that.lastName)
+                && Objects.equals(email, that.email)
+                && userStatus == that.userStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, password, firstName, lastName, email, userStatus, companyId);
+    }
+
 }

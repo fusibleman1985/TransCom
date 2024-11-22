@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.transcom.entities.enums.UserStatus;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -16,5 +16,20 @@ import java.util.UUID;
 @SuperBuilder
 public class UserDtoResponse extends UserDtoRequest {
     private UUID id;
-    private UserStatus userStatus;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        UserDtoResponse that = (UserDtoResponse) o;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id);
+    }
 }

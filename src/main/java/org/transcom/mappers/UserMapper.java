@@ -35,9 +35,22 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "password", ignore = true)
     @Mapping(target = "phones", expression = "java(mapPhoneNumbersToPhones(userDtoRequest.getPhoneNumbers(), user))")
     default void updateUserFromDto(UserDtoRequest userDtoRequest, @MappingTarget User user) {
+        if (userDtoRequest.getPassword() != null && !userDtoRequest.getPassword().isEmpty()) {
+            user.setPassword(userDtoRequest.getPassword());
+        }
+        if (userDtoRequest.getFirstName() != null && !userDtoRequest.getFirstName().isEmpty()) {
+            user.setFirstName(userDtoRequest.getFirstName());
+        }
+        if (userDtoRequest.getLastName() != null && !userDtoRequest.getLastName().isEmpty()) {
+            user.setLastName(userDtoRequest.getLastName());
+        }
+        if (userDtoRequest.getEmail() != null && !userDtoRequest.getEmail().isEmpty()) {
+            user.setEmail(userDtoRequest.getEmail());
+        }
+        user.setUserStatus(userDtoRequest.getUserStatus());
+
         user.setPhones(mapPhoneNumbersToPhones(userDtoRequest.getPhoneNumbers(), user));
     }
 
@@ -47,6 +60,13 @@ public interface UserMapper {
                 .map(Phone::getPhoneNumber)
                 .toList();
     }
+
+    default List<String> map(List<Phone> phones) {
+        return phones.stream()
+                .map(Phone::getPhoneNumber)
+                .toList();
+    }
+
 
     default List<Phone> mapPhoneNumbersToPhones(List<String> phoneNumbers, User user) {
         return phoneNumbers.stream()

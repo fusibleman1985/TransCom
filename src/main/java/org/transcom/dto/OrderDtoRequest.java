@@ -15,9 +15,6 @@ import java.util.UUID;
 @Builder
 public class OrderDtoRequest {
 
-    @NotNull
-    private UUID userId;
-
     @Min(value = 1, message = "Weight must be greater than zero")
     private Integer weight;
 
@@ -27,4 +24,7 @@ public class OrderDtoRequest {
     private String description;
 
     private OrderStatus orderStatus;
+
+    @NotNull
+    private UUID userId;
 }

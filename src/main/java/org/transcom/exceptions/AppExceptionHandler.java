@@ -52,4 +52,5 @@ public class AppExceptionHandler {
     public ResponseEntity<String> handleCompanyNotFoundException(CompanyNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
 }

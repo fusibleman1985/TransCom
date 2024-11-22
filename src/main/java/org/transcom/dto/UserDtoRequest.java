@@ -34,4 +34,5 @@ public class UserDtoRequest {
     private UserStatus userStatus;
     private List<String> phoneNumbers;
     private List<Order> orders;
+    private Long companyId;
 }

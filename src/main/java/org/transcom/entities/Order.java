@@ -2,7 +2,6 @@ package org.transcom.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 import org.transcom.entities.enums.OrderStatus;
@@ -23,11 +22,9 @@ public class Order {
     private UUID id;
 
     @Column(name = "weight")
-    @Min(value = 1, message = "Weight must be greater than zero")
     private Integer weight;
 
     @Column(name = "price")
-    @Min(value = 1, message = "Price must be greater than zero")
     private BigDecimal price;
 
     @Column(name = "description")

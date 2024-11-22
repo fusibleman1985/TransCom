@@ -76,6 +76,9 @@ public class User {
     @JsonManagedReference
     private List<Order> orders;
 
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<Truck> trucks;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

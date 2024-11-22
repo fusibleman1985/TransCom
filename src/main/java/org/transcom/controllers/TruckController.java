@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.transcom.dto.TruckDtoRequest;
-import org.transcom.entities.Truck;
+import org.transcom.dto.TruckDtoResponse;
 import org.transcom.services.TruckService;
 
 import java.util.List;
@@ -23,26 +23,32 @@ public class TruckController {
     private TruckService truckService;
 
     @PostMapping
-    public ResponseEntity<Truck> createTruck(@RequestBody @Valid TruckDtoRequest truckDtoRequest) {
-        Truck createdTruck = truckService.createTruck(truckDtoRequest);
+    public ResponseEntity<TruckDtoResponse> createTruck(@RequestBody @Valid TruckDtoRequest truckDtoRequest) {
+        TruckDtoResponse createdTruck = truckService.createTruck(truckDtoRequest);
         return ResponseEntity.ok(createdTruck);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Truck> getTruckById(@PathVariable UUID id) {
-        Truck truck = truckService.findTruckById(id);
-        return truck != null ? ResponseEntity.ok(truck) : ResponseEntity.notFound().build();
+    public ResponseEntity<TruckDtoResponse> getTruckById(@PathVariable UUID id) {
+        TruckDtoResponse truckDtoResponse = truckService.findTruckById(id);
+        return truckDtoResponse != null ? ResponseEntity.ok(truckDtoResponse) : ResponseEntity.notFound().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Truck>> getAllTrucks() {
-        List<Truck> trucks = truckService.findAllTrucks();
+    public ResponseEntity<List<TruckDtoResponse>> getAllTrucks() {
+        List<TruckDtoResponse> trucks = truckService.findAllTrucks();
+        return ResponseEntity.ok(trucks);
+    }
+
+    @GetMapping("/shortName")
+    public ResponseEntity<List<TruckDtoResponse>> findTrucksByTruckTypeShortName(@RequestParam String shortName) {
+        List<TruckDtoResponse> trucks = truckService.findTrucksByTruckTypeShortName(shortName);
         return ResponseEntity.ok(trucks);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Truck> updateTruck(@PathVariable UUID id, @RequestBody TruckDtoRequest truckToUpdate) {
-        Truck updatedTruck = truckService.updateTruck(id, truckToUpdate);
+    public ResponseEntity<TruckDtoResponse> updateTruck(@PathVariable UUID id, @RequestBody @Valid TruckDtoRequest truckToUpdate) {
+        TruckDtoResponse updatedTruck = truckService.updateTruck(id, truckToUpdate);
         return updatedTruck != null ? ResponseEntity.ok(updatedTruck) : ResponseEntity.notFound().build();
     }
 
@@ -53,4 +59,5 @@ public class TruckController {
         }
         return ResponseEntity.notFound().build();
     }
+
 }

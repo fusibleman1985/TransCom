@@ -1,10 +1,12 @@
 package org.transcom.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.transcom.entities.enums.TruckStatus;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -29,7 +31,7 @@ public class Truck {
     private int weight;
 
     @Column(name = "capacity")
-    private Double capacity;
+    private double capacity;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "truck_status")
@@ -38,11 +40,31 @@ public class Truck {
     @Column(name = "location")
     private String location;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    @Column(name = "user_id")
-//    private List<User> user;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_trucks",
+            joinColumns = {@JoinColumn(name = "truck_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
+    private List<User> users;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
     private TruckType truckType;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Truck truck = (Truck) o;
+        return length == truck.length
+                && weight == truck.weight
+                && Objects.equals(id, truck.id)
+                && Objects.equals(capacity, truck.capacity)
+                && truckStatus == truck.truckStatus
+                && Objects.equals(location, truck.location)
+                && truckType.getShortName().equals(truck.truckType.getShortName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, length, weight, capacity, truckStatus, location, truckType);
+    }
 }

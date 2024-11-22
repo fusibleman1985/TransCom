@@ -35,6 +35,7 @@ public class UserDtoRequest {
     private UserStatus userStatus;
     private List<String> phoneNumbers;
     private List<Order> orders;
+    private Long companyId;
 
     @Override
     public boolean equals(Object o) {
@@ -53,6 +54,7 @@ public class UserDtoRequest {
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, password, firstName, lastName, email, userStatus);
+        return Objects.hash(login, password, firstName, lastName, email, userStatus, companyId);
     }
+
 }

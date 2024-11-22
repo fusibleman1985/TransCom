@@ -66,8 +66,8 @@ public class User {
     @JsonManagedReference
     private List<Phone> phones;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "company_id", referencedColumnName = "id", nullable = false)
     @JsonManagedReference
     private Company company;
 
@@ -75,6 +75,9 @@ public class User {
     @JoinColumn(name = "user_id")
     @JsonManagedReference
     private List<Order> orders;
+
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    private List<Truck> trucks;
 
     @Override
     public boolean equals(Object o) {

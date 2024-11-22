@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.transcom.dto.TruckTypeDtoRequest;
 import org.transcom.entities.TruckType;
 import org.transcom.exceptions.TruckTypeDeleteException;
+import org.transcom.exceptions.TruckTypeNotFoundException;
 import org.transcom.exceptions.enums.ErrorMessages;
 import org.transcom.mappers.TruckTypeMapper;
 import org.transcom.repositories.TruckRepository;
@@ -29,7 +30,9 @@ public class TruckTypeServiceImpl implements TruckTypeService {
 
     @Override
     public TruckType findTruckType(Long id) {
-        return truckTypeRepository.findById(id).orElse(null);
+        TruckType truckTypeById = truckTypeRepository.findById(id).orElseThrow(() ->
+                new TruckTypeNotFoundException(ErrorMessages.TRUCK_TYPE_NOT_FOUND.getMessage()));
+        return truckTypeById;
     }
 
     @Override

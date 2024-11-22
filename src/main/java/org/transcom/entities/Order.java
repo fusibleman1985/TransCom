@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.transcom.entities.enums.OrderStatus;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -41,4 +42,19 @@ public class Order {
     @JsonBackReference
     private User user;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id) &&
+                Objects.equals(weight, order.weight) &&
+                Objects.equals(price, order.price) &&
+                Objects.equals(description, order.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, weight, price, description);
+    }
 }

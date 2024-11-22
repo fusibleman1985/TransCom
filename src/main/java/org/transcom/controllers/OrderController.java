@@ -21,33 +21,33 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping
+    @PostMapping("/saveOrder")
     public ResponseEntity<Order> saveOrder(@RequestBody @Valid OrderDtoRequest orderDtoRequest) {
         Order savedOrder = orderService.saveOrder(orderDtoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
     }
 
-    @GetMapping
+    @GetMapping("/findAll")
     public ResponseEntity<List<Order>> findAllOrders() {
-        List <Order> orders = orderService.findAllOrders();
+        List<Order> orders = orderService.findAllOrders();
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/findById/{id}")
     public ResponseEntity<Order> findOrderById(@PathVariable UUID id) {
         Order order = orderService.findOrderById(id);
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Order> updateOrder(@PathVariable UUID id, @RequestBody @Valid OrderDtoRequest orderDtoRequest) {
-        Order updatedOrder = orderService.updateOrder(id,orderDtoRequest);
+        Order updatedOrder = orderService.updateOrder(id, orderDtoRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedOrder);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable UUID id) {
-        if (orderService.deleteOrder(id)){
+        if (orderService.deleteOrder(id)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

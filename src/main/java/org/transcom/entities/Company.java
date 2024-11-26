@@ -50,7 +50,7 @@ public class Company {
     private ClientStatus companyStatus;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonBackReference
     private List<User> users;
 

@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.transcom.entities.enums.OrderStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,8 +26,8 @@ public class Order {
     @Column(name = "weight")
     private Integer weight;
 
-    @Column(name = "price")
-    private BigDecimal price;
+    @Column(name = "capacity_cubic_units")
+    private Double capacityCubicUnits;
 
     @Column(name = "description")
     private String description;
@@ -34,10 +36,23 @@ public class Order {
     @Column(name = "order_status")
     private OrderStatus orderStatus;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @Column(name = "price")
+    private BigDecimal price;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "order_users",
+            joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
     @JsonBackReference
-    private User user;
+    private List<User> users;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Override
     public boolean equals(Object o) {
@@ -53,5 +68,16 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hash(id, weight, price, description);
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

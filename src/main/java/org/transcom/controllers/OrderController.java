@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.transcom.dto.OrderDtoRequest;
-import org.transcom.entities.Order;
+import org.transcom.dto.OrderDtoResponse;
 import org.transcom.services.OrderService;
 
 import java.util.List;
@@ -22,26 +22,26 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/saveOrder")
-    public ResponseEntity<Order> saveOrder(@RequestBody @Valid OrderDtoRequest orderDtoRequest) {
-        Order savedOrder = orderService.saveOrder(orderDtoRequest);
+    public ResponseEntity<OrderDtoResponse> saveOrder(@RequestBody @Valid OrderDtoRequest orderDtoRequest) {
+        OrderDtoResponse savedOrder = orderService.saveOrder(orderDtoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<Order>> findAllOrders() {
-        List<Order> orders = orderService.findAllOrders();
+    public ResponseEntity<List<OrderDtoResponse>> findAllOrders() {
+        List<OrderDtoResponse> orders = orderService.findAllOrders();
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 
     @GetMapping("/findById/{id}")
-    public ResponseEntity<Order> findOrderById(@PathVariable UUID id) {
-        Order order = orderService.findOrderById(id);
+    public ResponseEntity<OrderDtoResponse> findOrderById(@PathVariable UUID id) {
+        OrderDtoResponse order = orderService.findOrderById(id);
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable UUID id, @RequestBody @Valid OrderDtoRequest orderDtoRequest) {
-        Order updatedOrder = orderService.updateOrder(id, orderDtoRequest);
+    public ResponseEntity<OrderDtoResponse> updateOrder(@PathVariable UUID id, @RequestBody @Valid OrderDtoRequest orderDtoRequest) {
+        OrderDtoResponse updatedOrder = orderService.updateOrder(id, orderDtoRequest);
         return ResponseEntity.status(HttpStatus.OK).body(updatedOrder);
     }
 

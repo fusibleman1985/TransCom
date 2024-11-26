@@ -1,20 +1,20 @@
 package org.transcom.services;
 
 import org.transcom.dto.OrderDtoRequest;
-import org.transcom.entities.Order;
+import org.transcom.dto.OrderDtoResponse;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface OrderService {
 
-    Order saveOrder(OrderDtoRequest orderDtoRequest);
+    OrderDtoResponse saveOrder(OrderDtoRequest orderDtoRequest);
 
-    List<Order> findAllOrders();
+    List<OrderDtoResponse> findAllOrders();
 
-    Order findOrderById(UUID id);
+    OrderDtoResponse findOrderById(UUID id);
 
-    Order updateOrder(UUID id, OrderDtoRequest orderDtoRequest);
+    OrderDtoResponse updateOrder(UUID id, OrderDtoRequest orderDtoRequest);
 
     boolean deleteOrder(UUID id);
 }

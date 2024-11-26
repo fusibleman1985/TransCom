@@ -16,3 +16,5 @@ spring:
   #    change-log: classpath:db.changelog/changelog-master.xml
   main:
     banner-mode: off
+  messages:
+    basename: i18n/messages_en.properties

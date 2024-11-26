@@ -8,7 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.transcom.entities.enums.UserStatus;
+import org.transcom.entities.enums.ClientStatus;
+import org.transcom.entities.enums.CompanyRole;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,26 +21,24 @@ import java.util.UUID;
 public class CompanyDtoRequest {
 
     @NotNull
-    @Min(value = 1, message = "CompanyName must be greater than zero")
+    @NotBlank(message = "CompanyName cannot be blank")
     private String companyName;
 
     @NotNull
-    private String companyRole;
+    private CompanyRole companyRole;
 
     @NotNull
     @NotBlank(message = "LicenseId cannot be blank")
     private String licenseId;
 
+    @Builder.Default
     @Min(value = 0)
     @Max(value = 100)
-    private Integer rating;
+    private Integer rating = 90;
 
     @NotNull
-    private UserStatus companyStatus;
+    private ClientStatus companyStatus;
 
     private List<UUID> userIds;
 
-    public CompanyDtoRequest() {
-        this.rating = 50;
-    }
 }

@@ -4,11 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.transcom.entities.enums.ClientStatus;
 import org.transcom.entities.enums.CompanyRole;
-import org.transcom.entities.enums.UserStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,7 +25,6 @@ public class Company {
     private Long id;
 
     @Column(name = "company_name", nullable = false)
-    @NotBlank(message = "CompanyName cannot be blank")
     private String companyName;
 
     @Enumerated(EnumType.STRING)
@@ -34,7 +32,6 @@ public class Company {
     private CompanyRole companyRole;
 
     @Column(name = "license_id", nullable = false)
-    @NotBlank(message = "LicenseId cannot be blank")
     private String licenseId;
 
     @Column(name = "rating")
@@ -50,7 +47,7 @@ public class Company {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "company_status")
-    private UserStatus companyStatus; ///////////////    Переименовать     //////////////////
+    private ClientStatus companyStatus;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -62,11 +59,27 @@ public class Company {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Company company = (Company) o;
-        return Double.compare(rating, company.rating) == 0 && Objects.equals(id, company.id) && Objects.equals(companyName, company.companyName) && Objects.equals(companyRole, company.companyRole) && Objects.equals(licenseId, company.licenseId);
+        return id.equals(company.id) &&
+                companyName.equals(company.companyName) &&
+                companyRole.equals(company.companyRole) &&
+                licenseId.equals(company.licenseId) &&
+                rating.equals(company.rating) &&
+                companyStatus.equals(company.companyStatus);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, companyName, companyRole, licenseId, rating);
+        return Objects.hash(id, companyName, companyRole, licenseId, rating, companyStatus);
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = LocalDateTime.now();
+        this.updatedDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedDate = LocalDateTime.now();
     }
 }

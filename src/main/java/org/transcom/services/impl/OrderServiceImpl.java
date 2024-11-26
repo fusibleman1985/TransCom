@@ -1,15 +1,15 @@
 package org.transcom.services.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.transcom.dto.OrderDtoRequest;
+import org.transcom.dto.OrderDtoResponse;
 import org.transcom.entities.Order;
-import org.transcom.entities.User;
 import org.transcom.entities.enums.OrderStatus;
 import org.transcom.exceptions.OrderNotFoundException;
-import org.transcom.exceptions.UserNotFoundException;
-import org.transcom.exceptions.enums.ErrorMessages;
 import org.transcom.mappers.OrderMapper;
+import org.transcom.repositories.FavoriteRepository;
 import org.transcom.repositories.OrderRepository;
 import org.transcom.repositories.UserRepository;
 import org.transcom.services.OrderService;
@@ -24,41 +24,44 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final UserRepository userRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Override
     public Order saveOrder(OrderDtoRequest orderDtoRequest) {
-        User user = userRepository.findById(orderDtoRequest.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND.getMessage()));
-        Order order = orderMapper.toEntity(orderDtoRequest, user);
-        return orderRepository.save(order);
+        return orderRepository.save(orderMapper.toOrderDtoResponse(orderDtoRequest, userRepository));
     }
 
     @Override
-    public List<Order> findAllOrders() {
-        return orderRepository.findAll();
+    public List<OrderDtoResponse> findAllOrders() {
+        return orderRepository.findAll().stream()
+                .map(o -> orderMapper.toOrderDtoResponse(o, favoriteRepository))
+                .toList();
     }
 
     @Override
-    public Order findOrderById(UUID id) {
-        return orderRepository.findById(id).orElseThrow(() ->
-                new OrderNotFoundException(ErrorMessages.ORDER_NOT_FOUND.getMessage()));
+    public OrderDtoResponse findOrderById(UUID id) {
+        Order orderById = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("{error.order_not_found}"));
+        return orderMapper.toOrderDtoResponse(orderById, favoriteRepository);
     }
 
     @Override
-    public Order updateOrder(UUID id,OrderDtoRequest orderDtoRequest) {
+    @Transactional
+    public OrderDtoResponse updateOrder(UUID id, OrderDtoRequest orderDtoRequest) {
         Order orderToUpdate = findOrderById(id);
-        User user = userRepository.findById(orderDtoRequest.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND.getMessage()));
-        orderMapper.updatedEntityFromDto(orderDtoRequest, orderToUpdate, user);
-        return orderRepository.save(orderToUpdate);
+        orderMapper.updatedEntityFromDto(orderDtoRequest, orderToUpdate, userRepository);
+        Order savedOrder = orderRepository.save(orderToUpdate);
+        return orderMapper.toOrderDtoResponse(savedOrder, favoriteRepository);
     }
 
     @Override
+    @Transactional
     public boolean deleteOrder(UUID id) {
-        Order order = orderRepository.findById(id).orElse(null);
-        if (order != null) {
-            order.setOrderStatus(OrderStatus.DELETED);
-            orderRepository.save(order);
+        Order orderById = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("{error.order_not_found}"));
+        if (orderById.getOrderStatus() != OrderStatus.DELETED) {
+            orderById.setOrderStatus(OrderStatus.DELETED);
+            orderRepository.save(orderById);
             return true;
         }
         return false;

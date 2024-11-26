@@ -3,6 +3,7 @@ package org.transcom.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.transcom.entities.enums.StringConstants;
 
 import java.util.List;
 import java.util.Objects;
@@ -32,8 +33,9 @@ public class TruckType {
     @Column(name = "capacity_cubic_units", nullable = false)
     private double capacityCubicUnits;
 
+    @Builder.Default
     @Column(name = "image_truck_type_name")
-    private String imageUrl;
+    private String imageUrl = StringConstants.DEFAULT_URL_TRUCK_TYPE_IMAGE.getValue();
 
     @OneToMany(mappedBy = "truckType", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
@@ -53,6 +55,6 @@ public class TruckType {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, shortName, fullName, lengthMeters, capacityCubicUnits, imageUrl, trucks);
+        return Objects.hash(id, shortName, fullName, lengthMeters, capacityCubicUnits, imageUrl);
     }
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.transcom.entities.Order;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,11 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class TruckDtoResponse extends TruckDto {
-
-    private UUID id;
-
-    private List<String> activeUsers;
+public class OrderDtoResponse extends Order {
 
     private List<UUID> favoriteByUserId;
 

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,31 +39,30 @@ public class Truck {
     @Column(name = "location")
     private String location;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
+    private TruckType truckType;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_trucks",
             joinColumns = {@JoinColumn(name = "truck_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-    private List<User> users;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
-    private TruckType truckType;
+    private List<User> activeUsers;
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Truck truck = (Truck) o;
-        return length == truck.length
-                && weight == truck.weight
-                && Objects.equals(id, truck.id)
-                && Objects.equals(capacity, truck.capacity)
-                && truckStatus == truck.truckStatus
-                && Objects.equals(location, truck.location)
-                && truckType.getShortName().equals(truck.truckType.getShortName());
+        return length == truck.length &&
+                weight == truck.weight &&
+                capacity == truck.capacity &&
+                id.equals(truck.id) &&
+                truckStatus == truck.truckStatus &&
+                truckType.getShortName().equals(truck.getTruckType().getShortName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, length, weight, capacity, truckStatus, location, truckType);
+        return Objects.hash(id, length, weight, capacity, truckStatus, truckType);
     }
 }

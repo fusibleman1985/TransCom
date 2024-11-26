@@ -7,14 +7,12 @@ import org.springframework.validation.annotation.Validated;
 import org.transcom.dto.UserDtoRequest;
 import org.transcom.dto.UserDtoResponse;
 import org.transcom.entities.User;
-import org.transcom.entities.enums.UserStatus;
+import org.transcom.entities.enums.ClientStatus;
 import org.transcom.exceptions.UserNotFoundException;
-import org.transcom.exceptions.enums.ErrorMessages;
 import org.transcom.mappers.UserMapper;
-import org.transcom.repositories.PhoneRepository;
-import org.transcom.repositories.UserRepository;
+import org.transcom.repositories.*;
 import org.transcom.services.UserService;
-import org.transcom.utils.UtilsUser;
+import org.transcom.utils.Utils;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,51 +24,70 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PhoneRepository phoneRepository;
-    private final UtilsUser utilsUser;
+    private final Utils utilsUser;
     private final UserMapper userMapper;
+    private final CompanyRepository companyRepository;
+    private final RoleRepository roleRepository;
+    private final TruckRepository truckRepository;
+    private final OrderRepository orderRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Override
     public UserDtoResponse createUser(@Valid UserDtoRequest userDtoRequest) {
-        User newUser = userMapper.toUser(userDtoRequest);
+        User newUser = userMapper.toUser(userDtoRequest,
+                companyRepository,
+                roleRepository,
+                truckRepository,
+                orderRepository);
         newUser.setPassword(utilsUser.hashPassword(userDtoRequest.getPassword()));
         User savedUser = userRepository.save(newUser);
-        return userMapper.toUserDtoResponseWithPhones(savedUser);
+        return userMapper.toUserDtoResponse(savedUser);
     }
 
     @Override
     public List<UserDtoResponse> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(userMapper::toUserDtoResponseWithPhones)
+                .map(user -> userMapper.toUserDtoResponse(user, favoriteRepository))
                 .toList();
     }
 
     @Override
     public UserDtoResponse findUserById(UUID id) {
-        User userById = userRepository.findById(id).orElseThrow(
-                () -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND.getMessage()));
-        return userMapper.toUserDtoResponseWithPhones(userById);
+        User userById = returnUserById(id);
+        return userMapper.toUserDtoResponse(userById, favoriteRepository);
     }
 
     @Override
     public UserDtoResponse updateUser(UUID id, UserDtoRequest userDtoRequest) {
-        User userById = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND.getMessage()));
+        User userById = returnUserById(id);
         phoneRepository.deleteAll(userById.getPhones());
-        userMapper.updateUserFromDto(userDtoRequest, userById);
+        // clearLists ???
+        userMapper.updateUserFromDto(userDtoRequest, userById,
+                companyRepository,
+                roleRepository,
+                truckRepository,
+                orderRepository);
+
+
         userById.setPassword(utilsUser.hashPassword(userDtoRequest.getPassword()));
         User updatedUser = userRepository.save(userById);
-        return userMapper.toUserDtoResponseWithPhones(updatedUser);
+        return userMapper.toUserDtoResponse(updatedUser);
     }
 
     @Override
     public boolean deleteUser(UUID id) {
-        User userById = userRepository.findById(id).orElse(null);
-        if (userById != null && userById.getUserStatus() != UserStatus.DELETED) {
-            userById.setUserStatus(UserStatus.DELETED);
+        User userById = returnUserById(id);
+        if (userById.getUserStatus() != ClientStatus.DELETED) {
+            userById.setUserStatus(ClientStatus.DELETED);
             userRepository.save(userById);
             return true;
         }
         return false;
+    }
+
+    private User returnUserById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("{error.user_not_found}"));
     }
 }

@@ -20,29 +20,29 @@ public class TruckTypeController {
     @Autowired
     private TruckTypeServiceImpl truckTypeService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<TruckType> createTruckType(@RequestBody @Valid TruckTypeDtoRequest truckTypeDtoRequest) {
         return ResponseEntity.ok(truckTypeService.createTruckType(truckTypeDtoRequest));
     }
 
-    @GetMapping
+    @GetMapping("/get-all")
     public ResponseEntity<List<TruckType>> getAllTruckTypes() {
         return ResponseEntity.ok(truckTypeService.findAllTruckTypes());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<TruckType> getTruckTypeById(@PathVariable Long id) {
         TruckType truckType = truckTypeService.findTruckType(id);
         return truckType != null ? ResponseEntity.ok(truckType) : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<TruckType> updateTruckType(@PathVariable Long id, @RequestBody @Valid TruckTypeDtoRequest truckTypeToUpdate) {
         TruckType truckType = truckTypeService.updateTruckType(id, truckTypeToUpdate);
         return truckType != null ? ResponseEntity.ok(truckType) : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteTruckType(@PathVariable Long id) {
         if (truckTypeService.deleteTruckType(id)) {
             return ResponseEntity.ok().build();

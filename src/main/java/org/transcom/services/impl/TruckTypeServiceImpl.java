@@ -1,12 +1,12 @@
 package org.transcom.services.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.transcom.dto.TruckTypeDtoRequest;
 import org.transcom.entities.TruckType;
 import org.transcom.exceptions.TruckTypeDeleteException;
 import org.transcom.exceptions.TruckTypeNotFoundException;
-import org.transcom.exceptions.enums.ErrorMessages;
 import org.transcom.mappers.TruckTypeMapper;
 import org.transcom.repositories.TruckRepository;
 import org.transcom.repositories.TruckTypeRepository;
@@ -24,15 +24,7 @@ public class TruckTypeServiceImpl implements TruckTypeService {
 
     @Override
     public TruckType createTruckType(TruckTypeDtoRequest truckTypeDtoRequest) {
-        TruckType truckType = truckTypeMapper.toTruckType(truckTypeDtoRequest);
-        return truckTypeRepository.save(truckType);
-    }
-
-    @Override
-    public TruckType findTruckType(Long id) {
-        TruckType truckTypeById = truckTypeRepository.findById(id).orElseThrow(() ->
-                new TruckTypeNotFoundException(ErrorMessages.TRUCK_TYPE_NOT_FOUND.getMessage()));
-        return truckTypeById;
+        return truckTypeRepository.save(truckTypeMapper.toTruckType(truckTypeDtoRequest));
     }
 
     @Override
@@ -41,25 +33,29 @@ public class TruckTypeServiceImpl implements TruckTypeService {
     }
 
     @Override
-    public TruckType updateTruckType(Long id, TruckTypeDtoRequest truckTypeDtoRequest) {
-        TruckType truckTypeById = findTruckType(id);
-        if (truckTypeById != null) {
-            truckTypeMapper.partialUpdate(truckTypeDtoRequest, truckTypeById);
-            return truckTypeRepository.save(truckTypeById);
-        }
-        return null;
+    public TruckType findTruckType(Long id) {
+        return truckTypeRepository.findById(id)
+                .orElseThrow(() -> new TruckTypeNotFoundException("{error.truck_type_not_found}"));
     }
 
     @Override
+    @Transactional
+    public TruckType updateTruckType(Long id, TruckTypeDtoRequest truckTypeDtoRequest) {
+        TruckType truckTypeById = findTruckType(id);
+        truckTypeMapper.updateTruckTypeFromDto(truckTypeDtoRequest, truckTypeById);
+        return truckTypeRepository.save(truckTypeById);
+    }
+
+    @Override
+    @Transactional
     public boolean deleteTruckType(Long id) {
         TruckType truckTypeById = findTruckType(id);
-        if (truckTypeById != null) {
-            if (truckRepository.existsByTruckTypeShortName(truckTypeById.getShortName())) {
-                throw new TruckTypeDeleteException(ErrorMessages.ERROR_DELETING_TRUCK_TYPE.getMessage());
-            }
-            truckTypeRepository.delete(truckTypeById);
-            return true;
+
+        if (truckRepository.existsByTruckTypeShortName(truckTypeById.getShortName())) {
+            throw new TruckTypeDeleteException("{error.error_deleting_truck_type}");
         }
-        return false;
+
+        truckTypeRepository.delete(truckTypeById);
+        return true;
     }
 }

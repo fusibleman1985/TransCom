@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.transcom.dto.TruckDtoRequest;
 import org.transcom.dto.TruckDtoResponse;
 import org.transcom.services.TruckService;
+import org.transcom.validation.annotations.ValidUUID;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,38 +23,38 @@ public class TruckController {
     @Autowired
     private TruckService truckService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<TruckDtoResponse> createTruck(@RequestBody @Valid TruckDtoRequest truckDtoRequest) {
         TruckDtoResponse createdTruck = truckService.createTruck(truckDtoRequest);
         return ResponseEntity.ok(createdTruck);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TruckDtoResponse> getTruckById(@PathVariable UUID id) {
-        TruckDtoResponse truckDtoResponse = truckService.findTruckById(id);
-        return truckDtoResponse != null ? ResponseEntity.ok(truckDtoResponse) : ResponseEntity.notFound().build();
-    }
-
-    @GetMapping
+    @GetMapping("/get-all")
     public ResponseEntity<List<TruckDtoResponse>> getAllTrucks() {
         List<TruckDtoResponse> trucks = truckService.findAllTrucks();
         return ResponseEntity.ok(trucks);
     }
 
-    @GetMapping("/shortName")
-    public ResponseEntity<List<TruckDtoResponse>> findTrucksByTruckTypeShortName(@RequestParam String shortName) {
+    @GetMapping("/get/{id}")
+    public ResponseEntity<TruckDtoResponse> getTruckById(@PathVariable @ValidUUID UUID id) {
+        TruckDtoResponse truckDtoResponse = truckService.findTruckById(id);
+        return truckDtoResponse != null ? ResponseEntity.ok(truckDtoResponse) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/get/shortName")
+    public ResponseEntity<List<TruckDtoResponse>> getTrucksByTruckTypeShortName(@RequestParam String shortName) {
         List<TruckDtoResponse> trucks = truckService.findTrucksByTruckTypeShortName(shortName);
         return ResponseEntity.ok(trucks);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TruckDtoResponse> updateTruck(@PathVariable UUID id, @RequestBody @Valid TruckDtoRequest truckToUpdate) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<TruckDtoResponse> updateTruck(@PathVariable @ValidUUID UUID id, @RequestBody @Valid TruckDtoRequest truckToUpdate) {
         TruckDtoResponse updatedTruck = truckService.updateTruck(id, truckToUpdate);
         return updatedTruck != null ? ResponseEntity.ok(updatedTruck) : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTruck(@PathVariable UUID id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteTruck(@PathVariable @ValidUUID UUID id) {
         if (truckService.deleteTruck(id)) {
             return ResponseEntity.ok().build();
         }

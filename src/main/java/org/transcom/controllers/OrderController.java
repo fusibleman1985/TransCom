@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.transcom.dto.OrderDtoRequest;
+import org.transcom.dto.OrderDtoResponse;
 import org.transcom.entities.Order;
 import org.transcom.services.OrderService;
 
@@ -21,19 +22,19 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/saveOrder")
+    @PostMapping("/create")
     public ResponseEntity<Order> saveOrder(@RequestBody @Valid OrderDtoRequest orderDtoRequest) {
         Order savedOrder = orderService.saveOrder(orderDtoRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
     }
 
-    @GetMapping("/findAll")
-    public ResponseEntity<List<Order>> findAllOrders() {
-        List<Order> orders = orderService.findAllOrders();
+    @GetMapping("/get-all")
+    public ResponseEntity<List<OrderDtoResponse>> findAllOrders() {
+        List<OrderDtoResponse> orders = orderService.findAllOrders();
         return ResponseEntity.status(HttpStatus.OK).body(orders);
     }
 
-    @GetMapping("/findById/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<Order> findOrderById(@PathVariable UUID id) {
         Order order = orderService.findOrderById(id);
         return ResponseEntity.status(HttpStatus.OK).body(order);

@@ -1,19 +1,19 @@
 package org.transcom.services;
 
 import org.transcom.dto.CompanyDtoRequest;
-import org.transcom.entities.Company;
+import org.transcom.dto.CompanyDtoResponse;
 
 import java.util.List;
 
 public interface CompanyService {
 
-    Company saveCompany(CompanyDtoRequest companyDtoRequest);
+    CompanyDtoResponse saveCompany(CompanyDtoRequest companyDtoRequest);
 
-    List<Company> findAllCompanies();
+    List<CompanyDtoResponse> findAllCompanies();
 
-    Company findCompanyById(Long id);
+    CompanyDtoResponse findCompanyById(Long id);
 
-    Company updateCompany(Long id, CompanyDtoRequest companyDtoRequest);
+    CompanyDtoResponse updateCompany(Long id, CompanyDtoRequest companyDtoRequest);
 
     boolean deleteCompany(Long id);
 

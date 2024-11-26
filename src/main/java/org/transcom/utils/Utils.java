@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 @Component
-public class UtilsUser {
+public class Utils {
 
     public String hashPassword(String password) {
-//        validatePassword(password);
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedhash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -32,14 +32,12 @@ public class UtilsUser {
         return hexString.toString();
     }
 
-    private void validatePassword(String password) {
-        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$";
-        if (!password.matches(passwordPattern)) {
-            throw new IllegalArgumentException(
-                    "Password must be at least 8 characters long, include one uppercase letter, " +
-                            "one lowercase letter, one number, and one special character(@$!%*?&#)."
-            );
+    private boolean isValidUUID(String id) {
+        try {
+            UUID.fromString(id);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            return false;
         }
     }
-
 }

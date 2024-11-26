@@ -6,6 +6,7 @@ import lombok.*;
 import org.transcom.entities.enums.OrderStatus;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -26,6 +27,6 @@ public class OrderDtoRequest {
     private OrderStatus orderStatus;
 
     @NotNull
-    private UUID userId;
+    private List<UUID> userIds;
 
 }

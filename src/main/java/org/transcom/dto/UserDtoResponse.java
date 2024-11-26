@@ -5,8 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.transcom.entities.Company;
+import org.transcom.entities.Order;
+import org.transcom.entities.Role;
+import org.transcom.entities.Truck;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -14,8 +20,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class UserDtoResponse extends UserDtoRequest {
+public class UserDtoResponse extends UserDto {
+
     private UUID id;
+    private Company company;
+    private Set<Role> userRoles;
+    private List<Truck> trucks;
+    private List<Order> orders;
 
     @Override
     public boolean equals(Object o) {
@@ -25,7 +36,8 @@ public class UserDtoResponse extends UserDtoRequest {
 
         UserDtoResponse that = (UserDtoResponse) o;
 
-        return Objects.equals(id, that.id);
+        return Objects.equals(id, that.id) &&
+                company.equals(that.company);
     }
 
     @Override

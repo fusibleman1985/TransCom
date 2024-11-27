@@ -1,0 +1,368 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1-create-companies-table" author="adragin">
+        <createTable tableName="companies">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="company_role" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="license_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+            <column name="company_status" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="updated_date" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Adding CHECK constraints for 'companies' -->
+    <changeSet id="2-add-check-constraints-for-companies" author="adragin">
+        <sql>
+            ALTER TABLE companies
+                ADD CONSTRAINT chk_company_role CHECK (company_role IN ('BROKER', 'CARRIER'));
+        </sql>
+        <sql>
+            ALTER TABLE companies
+                ADD CONSTRAINT chk_company_status CHECK (company_status IN ('ACTIVE', 'BLOCKED', 'DELETED'));
+        </sql>
+        <sql>
+            ALTER TABLE companies
+                ADD CONSTRAINT chk_company_rating CHECK (rating BETWEEN 0 AND 100);
+        </sql>
+    </changeSet>
+
+    <changeSet id="1-create-favorites-table" author="adragin">
+        <createTable tableName="favorites">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="truck_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+            <column name="order_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1-create-orders-table" author="adragin">
+        <createTable tableName="orders">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="weight" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+            <column name="price" type="DECIMAL(10, 2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="order_status" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Adding CHECK constraints for 'orders' -->
+    <changeSet id="2-add-check-constraints-for-orders" author="adragin">
+        <sql>
+            ALTER TABLE orders
+                ADD CONSTRAINT chk_order_status CHECK (order_status IN ('CREATED', 'ACCEPTED', 'CANCELLED', 'COMPLETED'));
+        </sql>
+    </changeSet>
+
+    <changeSet id="1-create-orders_users-table" author="adragin">
+        <createTable tableName="orders_users">
+            <column name="order_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2-add-primary-key-for-orders_users-table" author="adragin">
+        <!--   <addPrimaryKey tableName="orders_users" columnNames="order_id, user_id" constraintName="pk_orders_users"/>    -->
+        <sql>
+            ALTER TABLE orders_users
+                ADD CONSTRAINT pk_orders_users PRIMARY KEY (order_id, user_id);
+        </sql>
+    </changeSet>
+
+    <changeSet id="1-create-phones-table" author="adragin">
+        <createTable tableName="phones">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1-create-roles-table" author="adragin">
+        <createTable tableName="roles">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="access_role" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Adding CHECK constraints for 'roles' -->
+    <changeSet id="2-add-check-constraints-for-roles-table" author="adragin">
+        <sql>
+            ALTER TABLE roles
+                ADD CONSTRAINT chk_roles_access_role CHECK (access_role IN
+                                                            ('SUPERADMIN', 'ADMIN', 'SUPERVISOR', 'MANAGER', 'DISPATCHER',
+                                                             'DRIVER', 'CUSTOMER'));
+        </sql>
+    </changeSet>
+
+    <changeSet id="1-create-truck_types-table" author="adragin">
+        <createTable tableName="truck_types">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="short_name" type="VARCHAR(128)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="full_name" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="length_meters" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="capacity_cubic_units" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_truck_type_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Index for 'short_name' in 'truck_types' -->
+    <changeSet id="1-create-unique-constraint-for-truck_types" author="adragin">
+        <addUniqueConstraint tableName="truck_types"
+                             columnNames="short_name"
+                             constraintName="uq_short_name"/>
+
+        <createIndex tableName="truck_types" indexName="idx_truck_types_short_name">
+            <column name="short_name"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="1-create-trucks-table" author="adragin">
+        <createTable tableName="trucks">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="length" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weight" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="capacity" type="DECIMAL(10, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="truck_status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="truck_type_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Constraint for 'truck_status' -->
+    <changeSet id="2-add-check-constraints-for-trucks-table" author="adragin">
+        <sql>
+            ALTER TABLE trucks
+                ADD CONSTRAINT chk_truck_status CHECK (truck_status IN
+                                                       ('AVAILABLE', 'IN_TRANSIT', 'LOADING', 'UNLOADING', 'UNAVAILABLE',
+                                                        'DELETED'));
+        </sql>
+    </changeSet>
+
+    <changeSet id="1-create-users-table" author="adragin">
+        <createTable tableName="users">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP"/>
+
+            <column name="user_status" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="company_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1-create-users_roles-table" author="adragin">
+        <createTable tableName="users_roles">
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1-create-users_trucks-table" author="adragin">
+        <createTable tableName="users_trucks">
+            <column name="truck_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2-add-primarykey-for-users_trucks-table" author="adragin">
+        <addPrimaryKey tableName="users_trucks" columnNames="truck_id, user_id" constraintName="pk_users_trucks"/>
+    </changeSet>
+
+    <changeSet id="1-create-foreign-keys-for-all-tables" author="adragin">
+        <!-- Foreign key for 'favorites' to 'user_id' -->
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_favorites_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+
+        <!-- Foreign key for 'favorites' to 'truck_id' -->
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="truck_id"
+                                 constraintName="fk_favorites_truck_id"
+                                 referencedTableName="trucks"
+                                 referencedColumnNames="id"/>
+
+        <!-- Foreign key for 'favorites' to 'order_id' -->
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="order_id"
+                                 constraintName="fk_favorites_order_id"
+                                 referencedTableName="orders"
+                                 referencedColumnNames="id"/>
+
+        <!-- External key for 'orders_users' to 'orders' -->
+        <addForeignKeyConstraint baseTableName="orders_users"
+                                 baseColumnNames="order_id"
+                                 constraintName="fk_orders_users_order_id"
+                                 referencedTableName="orders"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <!-- External key for 'orders_users' to 'users' -->
+        <addForeignKeyConstraint baseTableName="orders_users"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_orders_users_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <!-- Foreign key for 'trucks' to 'truck_type' -->
+        <addForeignKeyConstraint baseTableName="trucks"
+                                 baseColumnNames="truck_type_id"
+                                 constraintName="fk_trucks_truck_type_id"
+                                 referencedTableName="truck_types"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <!-- Foreign key for 'users' to 'companies' -->
+        <addForeignKeyConstraint baseTableName="users"
+                                 baseColumnNames="company_id"
+                                 constraintName="fk_users_companies"
+                                 referencedTableName="companies"
+                                 referencedColumnNames="id"/>
+
+        <!-- Foreign key for 'users' to 'phones' -->
+        <addForeignKeyConstraint baseTableName="phones"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_phones_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+
+        <!--  Foreign key for 'users_roles' to 'users'  -->
+        <addForeignKeyConstraint baseTableName="users_roles"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_users_roles_user"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <!--  Foreign key for 'users_roles' to 'roles'  -->
+        <addForeignKeyConstraint baseTableName="users_roles"
+                                 baseColumnNames="role_id"
+                                 constraintName="fk_users_roles_role"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <!-- Foreign key for 'users_trucks' to 'trucks' -->
+        <addForeignKeyConstraint baseTableName="users_trucks"
+                                 baseColumnNames="truck_id"
+                                 constraintName="fk_users_trucks_truck_id"
+                                 referencedTableName="trucks"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <!-- Foreign key for 'users_trucks' to 'users' -->
+        <addForeignKeyConstraint baseTableName="users_trucks"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_users_trucks_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+    </changeSet>
+</databaseChangeLog>

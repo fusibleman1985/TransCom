@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!--           Create all tables in database        -->
+    <include file="/db/changelog/v1.0-snapshot/create-companies-table.xml"/>
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-truck_types-table.xml"/>-->
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-roles-table.xml"/>-->
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-phones-table.xml"/>-->
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-users-table.xml"/>-->
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-users_roles-table.xml"/>-->
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-orders-table.xml"/>-->
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-orders_users-table.xml"/>-->
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-trucks-table.xml"/>-->
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-users_trucks-table.xml"/>-->
+    <!--    <include file="/db/changelog/v1.0-snapshot/create-favorites-table.xml"/>-->
+
+    <!--    hxfgxfjxfjxf-->
+
+</databaseChangeLog>

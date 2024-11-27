@@ -1,0 +1,43 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1-create-favorites-table" author="adragin">
+        <createTable tableName="favorites">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="truck_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+            <column name="order_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <!-- Foreign key for user_id -->
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_favorites_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+
+        <!-- Foreign key for truck_id -->
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="truck_id"
+                                 constraintName="fk_favorites_truck_id"
+                                 referencedTableName="trucks"
+                                 referencedColumnNames="id"/>
+
+        <!-- Foreign key for order_id -->
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="order_id"
+                                 constraintName="fk_favorites_order_id"
+                                 referencedTableName="orders"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

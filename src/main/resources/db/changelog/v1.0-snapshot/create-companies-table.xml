@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1-create-companies-table" author="adragin">
+        <createTable tableName="companies">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="company_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="company_role" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="license_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+            <column name="company_status" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="updated_date" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Adding CHECK constraints -->
+    <changeSet id="2-add-check-constraints-for-companies" author="adragin">
+        <sql>
+            ALTER TABLE companies
+                ADD CONSTRAINT chk_company_role CHECK (company_role IN ('BROKER', 'CARRIER'));
+        </sql>
+        <sql>
+            ALTER TABLE companies
+                ADD CONSTRAINT chk_company_status CHECK (company_status IN ('ACTIVE', 'BLOCKED', 'DELETED'));
+        </sql>
+        <sql>
+            ALTER TABLE companies
+                ADD CONSTRAINT chk_company_rating CHECK (rating BETWEEN 0 AND 100);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

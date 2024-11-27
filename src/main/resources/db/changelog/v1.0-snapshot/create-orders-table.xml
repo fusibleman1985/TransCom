@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1-create-orders-table" author="adragin">
+        <createTable tableName="orders">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="weight" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+            <column name="price" type="DECIMAL(10, 2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="order_status" type="VARCHAR(50)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2-add-check-constraints-for-order_status" author="adragin">
+        <sql>
+            ALTER TABLE orders
+                ADD CONSTRAINT chk_order_status CHECK (order_status IN ('CREATED', 'ACCEPTED', 'CANCELLED', 'COMPLETED'));
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

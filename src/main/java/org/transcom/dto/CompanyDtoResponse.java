@@ -18,11 +18,8 @@ public class CompanyDtoResponse {
     private String companyName;
     private CompanyRole companyRole;
     private String licenseId;
-    private Integer rating;
+    private Integer rating = 90;
     private ClientStatus companyStatus;
     private List<String> usersFullNameAndId;
 
-    public CompanyDtoResponse() {
-        this.rating = 50;
-    }
 }

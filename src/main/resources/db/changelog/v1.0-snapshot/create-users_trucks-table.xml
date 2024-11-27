@@ -1,0 +1,36 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1-create-users_trucks-table" author="adragin">
+        <createTable tableName="users_trucks">
+            <column name="truck_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Foreign key for 'users_trucks' к 'trucks' -->
+        <addForeignKeyConstraint baseTableName="users_trucks"
+                                 baseColumnNames="truck_id"
+                                 constraintName="fk_users_trucks_truck_id"
+                                 referencedTableName="trucks"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <!-- Foreign key for 'users_trucks' к 'users' -->
+        <addForeignKeyConstraint baseTableName="users_trucks"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_users_trucks_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="2-add-primarykey-for-users_trucks-table" author="adragin">
+        <addPrimaryKey tableName="users_trucks" columnNames="truck_id, user_id" constraintName="pk_users_trucks"/>
+    </changeSet>
+
+</databaseChangeLog>

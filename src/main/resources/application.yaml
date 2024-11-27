@@ -10,10 +10,11 @@ spring:
     show-sql: true
     open-in-view: false
     hibernate:
-      ddl-auto: update
-  #  liquibase:
-  #    enabled: true
-  #    change-log: classpath:db.changelog/changelog-master.xml
+      ddl-auto: none
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/changelog-master.xml
+    drop-first: true
   main:
     banner-mode: off
   messages:

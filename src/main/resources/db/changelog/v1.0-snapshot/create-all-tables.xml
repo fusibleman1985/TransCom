@@ -257,6 +257,10 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="2-add-primary-key-for-users_roles-table" author="adragin">
+        <addPrimaryKey tableName="users_roles" columnNames="user_id, role_id" constraintName="pk_users_roles"/>
+    </changeSet>
+
     <changeSet id="1-create-users_trucks-table" author="adragin">
         <createTable tableName="users_trucks">
             <column name="truck_id" type="UUID">
@@ -268,7 +272,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2-add-primarykey-for-users_trucks-table" author="adragin">
+    <changeSet id="2-add-primary-key-for-users_trucks-table" author="adragin">
         <addPrimaryKey tableName="users_trucks" columnNames="truck_id, user_id" constraintName="pk_users_trucks"/>
     </changeSet>
 
